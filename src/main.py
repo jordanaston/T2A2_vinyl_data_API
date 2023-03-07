@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
+
 def create_app():
     # using a list comprehension and multiple assignment 
     # to grab the environment variables we need
@@ -12,7 +14,9 @@ def create_app():
     app.config.from_object("config.app_config")
 
     # creating our database object! This allows us to use our ORM
-    db = SQLAlchemy(app)
+    db.init_app(app)
     
     return app
+
+
 
