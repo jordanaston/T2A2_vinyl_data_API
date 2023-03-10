@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.tracks import Track
+from models.users import User
 from schemas.track_schema import track_schema, tracks_schema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 tracks = Blueprint('tracks', __name__, url_prefix="/tracks")
 
@@ -49,25 +51,28 @@ def create_track():
 
 # Finally, we round out our CRUD resource with a DELETE method
 @tracks.route("/<int:id>/", methods=["DELETE"])
+@jwt_required()
 def delete_track(id):
-    # #get the user id invoking get_jwt_identity
-    # user_id = get_jwt_identity()
-    # #Find it in the db
-    # user = User.query.get(user_id)
-    # #Make sure it is in the database
-    # if not user:
-    #     return abort(401, description="Invalid user")
-    # # Stop the request if the user is not an admin
-    # if not user.admin:
-    #     return abort(401, description="Unauthorised user")
-    # find the card
+    # get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    # Find it in the db
+    user = User.query.get(user_id)
+    # Make sure it is in the database
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    # Stop the request if the user is not an admin
+    if not user.admin:
+        return abort(401, description="Unauthorised user")
+    
+    # find the track
     track = Track.query.filter_by(id=id).first()
     #return an error if the card doesn't exist
     if not Track:
         return abort(400, description= "Track doesn't exist")
-    #Delete the card from the database and commit
+    #Delete the track from the database and commit
     db.session.delete(track)
     db.session.commit()
-    #return the card in the response
+    #return the track in the response
     return jsonify(track_schema.dump(track))
    

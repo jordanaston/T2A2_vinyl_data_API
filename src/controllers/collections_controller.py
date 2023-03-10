@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.collections import Collection
 from schemas.collection_schema import collection_schema, collections_schema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 collections = Blueprint('collections', __name__, url_prefix="/collections")
 

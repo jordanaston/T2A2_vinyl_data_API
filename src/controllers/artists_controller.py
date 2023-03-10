@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.artists import Artist
 from schemas.artist_schema import artist_schema, artists_schema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 artists = Blueprint('artists', __name__, url_prefix="/artists")
 
