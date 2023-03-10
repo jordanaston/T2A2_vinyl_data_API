@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.records import Record
+from models.users import User
 from schemas.record_schema import record_schema, records_schema
+from datetime import date
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 records = Blueprint('records', __name__, url_prefix="/records")
 
@@ -18,6 +21,7 @@ def get_records():
 
 # The POST route endpoint
 @records.route("/", methods=["POST"])
+@jwt_required()
 def create_record():
     # #Create a new record
     record_fields = record_schema.load(request.json)
@@ -39,6 +43,7 @@ def create_record():
 
 # Finally, we round out our CRUD resource with a DELETE method
 @records.route("/<int:id>/", methods=["DELETE"])
+@jwt_required()
 def delete_record(id):
     # get the user id invoking get_jwt_identity
     # user_id = get_jwt_identity()

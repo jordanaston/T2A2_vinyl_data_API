@@ -24,6 +24,10 @@ def create_app():
 
     ma.init_app(app)
 
+    #creating the jwt and bcrypt objects! this allows us to use authentication
+    bcrypt.init_app(app)
+    jwt.init_app(app)
+
     from commands import db_commands
     app.register_blueprint(db_commands)
 

@@ -6,6 +6,8 @@ from datetime import date
 
 users = Blueprint('users', __name__, url_prefix="/users")
 
+# NEED TO ADD PUT REQUESTS FOR "UPDATE" CRUD FUNCTIONALITY
+
 # The GET routes endpoint
 @users.route("/", methods=["GET"])
 def get_users():
