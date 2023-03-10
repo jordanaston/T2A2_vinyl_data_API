@@ -4,9 +4,9 @@ class Record(db.Model):
     # define the table name for the db
     __tablename__= "RECORDS"
     # Set the primary key, we need to define that each attribute is also a column in the db table, remember "db" is the object we created in the previous step.
-    id = db.Column(db.Integer,primary_key=True)
+    id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     # Add the rest of the attributes. 
-    album_title = db.Column(db.String())
+    album_title = db.Column(db.String(), nullable=False)
     rpm = db.Column(db.Integer())
-    user_id = db.Column(db.Integer, db.ForeignKey('USERS.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('USERS.id'), nullable=False)
     
