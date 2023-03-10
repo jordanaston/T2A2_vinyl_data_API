@@ -5,13 +5,25 @@ from schemas.collection_schema import collection_schema, collections_schema
 
 collections = Blueprint('collections', __name__, url_prefix="/collections")
 
-# The GET routes endpoint
+# The GET routes endpoint to get all collections
 @collections.route("/", methods=["GET"])
 def get_collections():
     # get all the users from the database table
     collection_list = Collection.query.all()
     # Convert the cards from the database into a JSON format and store them in result
     result = collections_schema.dump(collection_list)
+    # return the data in JSON format
+    return jsonify(result)
+
+# The GET routes endpoint for a single collection
+@collections.route("/<int:id>/", methods=["GET"])
+def get_collection(id):
+    collection = Collection.query.filter_by(id=id).first()
+    #return an error if the card doesn't exist
+    if not collection:
+        return abort(400, description= "Collection does not exist")
+    # Convert the cards from the database into a JSON format and store them in result
+    result = collection_schema.dump(collection)
     # return the data in JSON format
     return jsonify(result)
 

@@ -8,13 +8,25 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 records = Blueprint('records', __name__, url_prefix="/records")
 
-# The GET routes endpoint
+# The GET routes endpoint to get all records
 @records.route("/", methods=["GET"])
 def get_records():
     # get all the users from the database table
     record_list = Record.query.all()
     # Convert the cards from the database into a JSON format and store them in result
     result = records_schema.dump(record_list)
+    # return the data in JSON format
+    return jsonify(result)
+
+# The GET routes endpoint for a single record
+@records.route("/<int:id>/", methods=["GET"])
+def get_record(id):
+    record = Record.query.filter_by(id=id).first()
+    #return an error if the card doesn't exist
+    if not record:
+        return abort(400, description= "Record does not exist")
+    # Convert the cards from the database into a JSON format and store them in result
+    result = record_schema.dump(record)
     # return the data in JSON format
     return jsonify(result)
 

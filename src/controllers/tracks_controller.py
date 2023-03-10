@@ -5,13 +5,25 @@ from schemas.track_schema import track_schema, tracks_schema
 
 tracks = Blueprint('tracks', __name__, url_prefix="/tracks")
 
-# The GET routes endpoint
+# The GET routes endpoint for all tracks
 @tracks.route("/", methods=["GET"])
 def get_tracks():
     # get all the users from the database table
     track_list = Track.query.all()
     # Convert the cards from the database into a JSON format and store them in result
     result = tracks_schema.dump(track_list)
+    # return the data in JSON format
+    return jsonify(result)
+
+# The GET routes endpoint for a single tracks
+@tracks.route("/<int:id>/", methods=["GET"])
+def get_track(id):
+    track = Track.query.filter_by(id=id).first()
+    #return an error if the card doesn't exist
+    if not track:
+        return abort(400, description= "Track does not exist")
+    # Convert the cards from the database into a JSON format and store them in result
+    result = track_schema.dump(track)
     # return the data in JSON format
     return jsonify(result)
 

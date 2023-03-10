@@ -15,6 +15,17 @@ def get_artists():
     # return the data in JSON format
     return jsonify(result)
 
+# The GET routes endpoint for a single record
+@artists.route("/<int:id>/", methods=["GET"])
+def get_artist(id):
+    artist = Artist.query.filter_by(id=id).first()
+    #return an error if the card doesn't exist
+    if not artist:
+        return abort(400, description= "Artist does not exist")
+    # Convert the cards from the database into a JSON format and store them in result
+    result = artist_schema.dump(artist)
+    # return the data in JSON format
+    return jsonify(result)
 
 # The POST route endpoint
 @artists.route("/", methods=["POST"])

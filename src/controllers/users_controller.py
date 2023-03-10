@@ -8,13 +8,25 @@ users = Blueprint('users', __name__, url_prefix="/users")
 
 # NEED TO ADD PUT REQUESTS FOR "UPDATE" CRUD FUNCTIONALITY
 
-# The GET routes endpoint
+# The GET routes endpoint for getting list of all users
 @users.route("/", methods=["GET"])
 def get_users():
     # get all the users from the database table
     user_list = User.query.all()
     # Convert the cards from the database into a JSON format and store them in result
     result = users_schema.dump(user_list)
+    # return the data in JSON format
+    return jsonify(result)
+
+# The GET routes endpoint for getting a single user
+@users.route("/<int:id>/", methods=["GET"])
+def get_user(id):
+    user = User.query.filter_by(id=id).first()
+    #return an error if the card doesn't exist
+    if not user:
+        return abort(400, description= "User does not exist")
+    # Convert the cards from the database into a JSON format and store them in result
+    result = user_schema.dump(user)
     # return the data in JSON format
     return jsonify(result)
 
