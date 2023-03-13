@@ -4,7 +4,7 @@ from main import ma
 class ArtistSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "artist_name", "record_id")
+        fields = ("id", "artist_name")
 
 #single card schema, when one card needs to be retrieved
 artist_schema = ArtistSchema()

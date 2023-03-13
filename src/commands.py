@@ -29,56 +29,92 @@ def seed_db():
     # Add the object as a new row to the table
     db.session.add(admin_user)
 
-    user1 = User(
-        user_name = "user_1",
-        email = "user1@email.com",
+    test_user = User(
+        user_name = "test_user",
+        email = "test_user@email.com",
         password = bcrypt.generate_password_hash("123456").decode("utf-8"),
         admin = False
     )
     # Add the object as a new row to the table
-    db.session.add(user1)
+    db.session.add(test_user)
 
     # This extra commit will end the transaction and generate the ids for the user
     db.session.commit()
+
+    artist1 = Artist(
+        # set the attributes, not the id, SQLAlchemy will manage that for us
+        artist_name = "Aphex Twin",
+    )
+    # Add the object as a new row to the tablef
+    db.session.add(artist1)
+
+    artist2 = Artist(
+        # set the attributes, not the id, SQLAlchemy will manage that for us
+        artist_name = "Chaos In The CBD",
+    )
+    # Add the object as a new row to the tablef
+    db.session.add(artist2)
 
     # create the card object
     record1 = Record(
         # set the attributes, not the id, SQLAlchemy will manage that for us
         album_title = "Selected Ambient Works 85-92",
         rpm = 33,
-        user_id = user1.id
+        user_id = test_user.id,
+        artist_id = artist1.id
     )
     # Add the object as a new row to the table
     db.session.add(record1)
+
+    # create the card object
+    record2 = Record(
+        # set the attributes, not the id, SQLAlchemy will manage that for us
+        album_title = "Intimate Fantasy - EP",
+        rpm = 45,
+        user_id = test_user.id,
+        artist_id = artist2.id
+    )
+    # Add the object as a new row to the table
+    db.session.add(record2)
 
     # This extra commit will end the transaction and generate the ids for the user
     db.session.commit()
 
     collection1 = Collection(
         # set the attributes, not the id, SQLAlchemy will manage that for us
-        user_id = user1.id,
+        user_id = test_user.id,
         record_id = record1.id
     )
     # Add the object as a new row to the table
     db.session.add(collection1)
 
-    artist1 = Artist(
+    collection2 = Collection(
         # set the attributes, not the id, SQLAlchemy will manage that for us
-        artist_name = "Aphex Twin",
-        record_id = record1.id
+        user_id = test_user.id,
+        record_id = record2.id
     )
-    # Add the object as a new row to the tablef
-    db.session.add(artist1)
+    # Add the object as a new row to the table
+    db.session.add(collection2)
 
     track1 = Track(
         # set the attributes, not the id, SQLAlchemy will manage that for us
         track_title = "Heliosphan",
-        bpm = 131,
-        key = "C Minor",
+        bpm = 126,
+        key = "E Minor",
         record_id = record1.id
     )
     # Add the object as a new row to the tablef
     db.session.add(track1)
+
+    track2 = Track(
+        # set the attributes, not the id, SQLAlchemy will manage that for us
+        track_title = "Club Miyako",
+        bpm = 131,
+        key = "C Minor",
+        record_id = record2.id
+    )
+    # Add the object as a new row to the tablef
+    db.session.add(track2)
 
     # commit the changes
     db.session.commit()

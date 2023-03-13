@@ -4,7 +4,7 @@ from main import ma
 class RecordSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "album_title", "rpm", "user_id")
+        fields = ("id", "album_title", "rpm", "user_id", "artist_id")
 
 #single card schema, when one card needs to be retrieved
 record_schema = RecordSchema()

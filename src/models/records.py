@@ -9,6 +9,8 @@ class Record(db.Model):
     album_title = db.Column(db.String(), nullable=False)
     rpm = db.Column(db.Integer())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
+    
     collections = db.relationship(
         "Collection",
         backref="record",

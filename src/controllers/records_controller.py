@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.records import Record
 from models.users import User
+from models.artists import Artist
 from schemas.record_schema import record_schema, records_schema
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -47,6 +48,8 @@ def create_record():
 
     # Use that id to set the ownership of the card
     new_record.user_id = user_id
+
+    new_record.artist_id = record_fields["artist_id"]
     # add to the database and commit
     db.session.add(new_record)
     db.session.commit()

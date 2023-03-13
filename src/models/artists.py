@@ -8,7 +8,6 @@ class Artist(db.Model):
     # Add the rest of the attributes. 
     artist_name = db.Column(db.String(), nullable=False)
 
-    record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
     records = db.relationship(
         "Record",
         backref="artist",
