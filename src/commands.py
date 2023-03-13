@@ -55,12 +55,14 @@ def seed_db():
     # Add the object as a new row to the tablef
     db.session.add(artist2)
 
+    # This extra commit will end the transaction and generate the ids for the user
+    db.session.commit()
+
     # create the card object
     record1 = Record(
         # set the attributes, not the id, SQLAlchemy will manage that for us
         album_title = "Selected Ambient Works 85-92",
         rpm = 33,
-        user_id = test_user.id,
         artist_id = artist1.id
     )
     # Add the object as a new row to the table
@@ -71,7 +73,6 @@ def seed_db():
         # set the attributes, not the id, SQLAlchemy will manage that for us
         album_title = "Intimate Fantasy - EP",
         rpm = 45,
-        user_id = test_user.id,
         artist_id = artist2.id
     )
     # Add the object as a new row to the table
