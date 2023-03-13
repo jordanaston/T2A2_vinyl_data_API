@@ -56,7 +56,50 @@ In summary, the objective of this project is to help users of any kind store and
 
 ## **R3: Justification of the Database System**
 
+There are a wide variety of database management systems that exist, each possessing unique pros and cons that cater to a diverse range of scenarios. In order to guarantee the selection of the most suitable database management system for this project, an evaluation was performed on alternative options.
+
+PostgreSQL is a popular relational database management system that stores data in tables with predefined relationships. In contrast, a popular non-relational database management system like MongoDB stores data in collections with flexible schemas.
+
+Benefits of PostgreSQL as a relational database management system include:
+
+- ACID compliance, ensuring consistency and reliability of data.
+- Powerful query capabilities with support for advanced data types like arrays, JSON, and XML.
+- Ability to handle large volumes of data with efficient indexing and partitioning.
+- Postgres allows you to create custom functions and operators, which makes it far easier to add new features and functionality to the database.
+
+Some potential drawbacks of PostgreSQL include:
+
+- Limited scalability due to its reliance on predefined relationships between tables.
+- Higher maintenance requirements for ensuring optimal performance.
+
+Benefits of MongoDB as a non-relational database management system include:
+
+- Flexibility in schema design, allowing for easier adaptation to changing data requirements.
+- Scalability for handling large amounts of unstructured or semi-structured data.
+- Support for distributed databases for increased fault tolerance and performance.
+
+Some potential drawbacks of MongoDB include:
+
+- No ACID compliance, meaning that data consistency and reliability may not be guaranteed in all scenarios.
+- Less powerful query capabilities compared to PostgreSQL for complex queries and analysis.
+
+An RDMS simplifies the process of categorizing data into distinct entities and establishing relationships between them in an efficient manner. This allows for the structured organization of data and enables users to perform complex queries on the database with ease and speed.
+
+Because of the size and nature of this application, PostgreSQL (a Relational Database Management System or RDMS) was chosen for a number of reasons which include:
+
+ACID compliance. The term "ACID" represents four principles;  Atomicity, Consistency, Isolation, and Durability. The principles are there to ensure the reliability of transactions within a database. 
+
+*“The presence of four properties — atomicity, consistency, isolation and durability — can ensure that a database transaction is completed in a timely manner. When databases possess these properties, they are said to be ACID-compliant.”* (MariaDB, 2018)
+
+For example, if a user adds a new vinyl record to their collection, an ACID-compliant database will ensure that the data is stored completely and accurately, without any errors or inconsistencies. Similarly, if a user updates or deletes a record, an ACID-compliant database will ensure that the changes are processed correctly and that no data is lost or corrupted. This is crucial for the longevity of this application.
+
+As mentioned, other database systems such as MongoDB allow for extensive scalability whereas postgres has limited scalability options due to its reliance on predefined relationships between tables. This is ok here, because the relationships have been carefully considered before the production of the application and are planned to stay the way they are.
+
+In this particular application, the use of an RDMS provides several advantages over non-relational databases. Since the data being stored has consistent attributes, the more rigid schema of an RDMS helps ensure domain integrity. Although non-relational databases offer greater flexibility, this advantage is not critical in this case, as the overall structure of the data across all tables in the database is not likely to change significantly over time.
+
 ## **R4: Functionalities and Benefits of an ORM**
+
+
 
 ## **R5: API Endpoints**
 
@@ -73,3 +116,5 @@ In summary, the objective of this project is to help users of any kind store and
 shoyei (2019). Vinyl DJ’s - how do you organize your collection? [online] Available at: https://www.reddit.com/r/DJs/comments/bcimyk/vinyl_djs_how_do_you_organize_your_collection/ [Accessed 12 Mar. 2023].
 
 ceeroSVK (2022). Vinyl djs: Do you catalogize BPM for your tunes somehow? [online] Available at: https://www.reddit.com/r/Beatmatch/comments/vwmhgz/vinyl_djs_do_you_catalogize_bpm_for_your_tunes/ [Accessed 12 Mar. 2023].
+
+MariaDB (2018). ACID Compliance: What It Means and Why You Should Care. [online] MariaDB. Available at: https://mariadb.com/resources/blog/acid-compliance-what-it-means-and-why-you-should-care/.
