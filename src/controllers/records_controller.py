@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.records import Record
+from models.collections import Collection
 from models.users import User
 from models.artists import Artist
 from schemas.record_schema import record_schema, records_schema
@@ -11,7 +12,15 @@ records = Blueprint('records', __name__, url_prefix="/records")
 
 # The GET routes endpoint to get all records
 @records.route("/", methods=["GET"])
+@jwt_required()
 def get_records():
+    user_id = get_jwt_identity()
+
+    user = User.query.get(user_id)
+    # Stop the request if the user is not an admin
+    if not user.admin:
+        return abort(401, description="Unauthorised user")
+
     # get all the users from the database table
     record_list = Record.query.all()
     # Convert the cards from the database into a JSON format and store them in result
@@ -20,12 +29,41 @@ def get_records():
     return jsonify(result)
 
 # The GET routes endpoint for a single record
+# @records.route("/<int:id>/", methods=["GET"])
+# def get_record(id):
+#     record = Record.query.filter_by(id=id).first()
+#     #return an error if the card doesn't exist
+#     if not record:
+#         return abort(400, description= "Record does not exist")
+#     # Convert the cards from the database into a JSON format and store them in result
+#     result = record_schema.dump(record)
+#     # return the data in JSON format
+#     return jsonify(result)
+
+# The GET routes endpoint for a specific record owned by user
 @records.route("/<int:id>/", methods=["GET"])
+@jwt_required()
 def get_record(id):
+    user_id = get_jwt_identity()
+
+    user = User.query.get(user_id)
+    
+    if not user:
+        return abort(401, description="Invalid user")
+
     record = Record.query.filter_by(id=id).first()
     #return an error if the card doesn't exist
     if not record:
         return abort(400, description= "Record does not exist")
+    
+    relationship = Record.query \
+        .join(Collection) \
+        .filter(Record.id==id, Collection.user_id == user_id) \
+        .first()
+    
+    if not relationship:
+        return abort(401, description="Unauthorised user")
+
     # Convert the cards from the database into a JSON format and store them in result
     result = record_schema.dump(record)
     # return the data in JSON format
@@ -44,7 +82,7 @@ def create_record():
     new_record = Record()
     new_record.album_title = record_fields["album_title"]
     new_record.rpm = record_fields["rpm"]
-    # new_record.user_id = record_fields["user_id"]
+    new_record.user_id = user_id
 
     # Use that id to set the ownership of the card
     new_record.user_id = user_id

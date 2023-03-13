@@ -57,3 +57,4 @@ def auth_login():
     access_token = create_access_token(identity=str(user.id), expires_delta=expiry)
     # return the user email and the access token
     return jsonify({"user":user.email, "token": access_token })
+

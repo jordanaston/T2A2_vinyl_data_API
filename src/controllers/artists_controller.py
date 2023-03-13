@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.artists import Artist
+from models.users import User
 from schemas.artist_schema import artist_schema, artists_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -8,7 +9,14 @@ artists = Blueprint('artists', __name__, url_prefix="/artists")
 
 # The GET routes endpoint
 @artists.route("/", methods=["GET"])
+@jwt_required()
 def get_artists():
+    user_id = get_jwt_identity()
+
+    user = User.query.get(user_id)
+    # Stop the request if the user is not an admin
+    if not user.admin:
+        return abort(401, description="Unauthorised user")
     # get all the users from the database table
     artist_list = Artist.query.all()
     # Convert the cards from the database into a JSON format and store them in result

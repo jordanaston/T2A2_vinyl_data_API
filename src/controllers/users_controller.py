@@ -11,7 +11,7 @@ users = Blueprint('users', __name__, url_prefix="/users")
 
 # WORKING WORKING WORKING
 
-# The GET routes endpoint for getting list of all users
+# The GET routes endpoint for getting list of all users (admin required)
 @users.route("/", methods=["GET"])
 @jwt_required()
 def get_users():
