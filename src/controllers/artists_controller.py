@@ -105,7 +105,7 @@ def get_user_artist(id):
         return abort(401, description="Unauthorized user")
     # Convert the artist from the database into a JSON format and store them in result
     result = artist_schema.dump(artist)
-    # return the data in JSON format
+    # Return the data in JSON format
     return jsonify(result)
 
 

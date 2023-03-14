@@ -103,7 +103,7 @@ def get_user_record(id):
         return abort(401, description="Unauthorized user")
     # Convert the record from the database into a JSON format and store them in result
     result = record_schema.dump(record)
-    # return the data in JSON format
+    # Return the data in JSON format
     return jsonify(result)
 
 # The POST route endpoint, any logged in user can post a new record to the database
@@ -158,7 +158,7 @@ def update_record(id):
     record.rpm = record_fields["rpm"]
     # Commit to the database
     db.session.commit()
-    # Return the artist in the response
+    # Return the record in the response
     return jsonify(record_schema.dump(record))
 
 
