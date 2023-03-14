@@ -8,10 +8,7 @@ from main import bcrypt
 
 users = Blueprint('users', __name__, url_prefix="/users")
 
-
-# WORKING WORKING WORKING
-
-# The GET routes endpoint for getting list of all users (admin required)
+# The GET route endpoint for getting list of all users (admin required)
 @users.route("/", methods=["GET"])
 @jwt_required()
 def get_users():
@@ -23,7 +20,7 @@ def get_users():
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
-        return abort(401, description="Unauthorised user")
+        return abort(401, description="Unauthorized user")
     
     # Convert the cards from the database into a JSON format and store them in result
     result = users_schema.dump(user_list)
@@ -31,7 +28,7 @@ def get_users():
     return jsonify(result)
 
 
-# WORKING WORKING WORKING
+# NEED TO CHANGE THIS SO THAT ONLY ADMIN CAN GET SINGLE USERS (users should remember their details) - But still need code from here
 
 # The GET routes endpoint for getting a single user
 @users.route("/<int:id>/", methods=["GET"])
@@ -49,7 +46,7 @@ def get_user(id):
     auth_user = User.query.get(user_id)
     # Make sure it is in the database
     if user != auth_user:
-        return abort(401, description="Invalid user")
+        return abort(401, description="Unauthorized user")
     # Convert the user from the database into a JSON format and store them in result
     result = user_schema.dump(user)
     # return the data in JSON format
@@ -66,7 +63,7 @@ def create_user():
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
-        return abort(401, description="Unauthorised user")
+        return abort(401, description="Unauthorized user")
     # Create a new user
     user_fields = user_schema.load(request.json)
 
@@ -83,7 +80,7 @@ def create_user():
     return jsonify(user_schema.dump(new_user))
 
 # WORKING WORKING WORKING
-
+# users can update themselves but not anyone else, admin can not update anyone but themselves at this point but it makes admin false (need to fix)
 # The PUT route endpoint
 @users.route("/<int:id>/", methods=["PUT"])
 @jwt_required()
@@ -105,7 +102,7 @@ def update_user(id):
     auth_user = User.query.get(user_id)
     # Make sure it is in the database
     if user != auth_user:
-        return abort(401, description="Invalid user")
+        return abort(401, description="Unauthorized user")
     
     #update the user details with the given values
     user.user_name = user_fields["user_name"]
@@ -119,7 +116,7 @@ def update_user(id):
     return jsonify(user_schema.dump(user))
 
 # WORKING WORKING WORKING
-
+# Users cannot delete any users (including themselves), only admins can. This code is working exactly like this 
 # Finally, we round out our CRUD resource with a DELETE method
 @users.route("/<int:id>/", methods=["DELETE"])
 @jwt_required()
@@ -133,7 +130,7 @@ def delete_user(id):
         return abort(401, description="Invalid user")
     # Stop the request if the user is not an admin
     if not user.admin:
-        return abort(401, description="Unauthorised user")
+        return abort(401, description="Unauthorized user")
     # Find the user
     find_user = User.query.filter_by(id=id).first()
     # Return an error if the user doesn't exist
@@ -145,4 +142,3 @@ def delete_user(id):
     # Return the user in the response
     return jsonify(user_schema.dump(find_user))
 
-# Users cannot delete any users (including themselves), only admins can. This code is working exactly like this 

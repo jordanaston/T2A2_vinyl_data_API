@@ -29,14 +29,23 @@ def seed_db():
     # Add the object as a new row to the table
     db.session.add(admin_user)
 
-    test_user = User(
-        user_name = "test_user",
-        email = "test_user@email.com",
+    user1 = User(
+        user_name = "user_1",
+        email = "user1@email.com",
         password = bcrypt.generate_password_hash("123456").decode("utf-8"),
         admin = False
     )
     # Add the object as a new row to the table
-    db.session.add(test_user)
+    db.session.add(user1)
+
+    user2 = User(
+        user_name = "user_2",
+        email = "user2@email.com",
+        password = bcrypt.generate_password_hash("123456").decode("utf-8"),
+        admin = False
+    )
+    # Add the object as a new row to the table
+    db.session.add(user2)
 
     # This extra commit will end the transaction and generate the ids for the user
     db.session.commit()
@@ -83,7 +92,7 @@ def seed_db():
 
     collection1 = Collection(
         # set the attributes, not the id, SQLAlchemy will manage that for us
-        user_id = test_user.id,
+        user_id = user1.id,
         record_id = record1.id
     )
     # Add the object as a new row to the table
@@ -91,7 +100,7 @@ def seed_db():
 
     collection2 = Collection(
         # set the attributes, not the id, SQLAlchemy will manage that for us
-        user_id = test_user.id,
+        user_id = user2.id,
         record_id = record2.id
     )
     # Add the object as a new row to the table
