@@ -4,6 +4,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # access to .env and get the value of SECRET_KEY, the variable name can be any but needs to match
     JWT_SECRET_KEY =  os.environ.get("SECRET_KEY")
+    JSON_SORT_KEYS = False
     @property
     def SQLALCHEMY_DATABASE_URI(self):
         # access to .env and get the value of DATABASE_URL, the variable name can be any but needs to match
