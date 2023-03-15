@@ -33,12 +33,12 @@ def get_users():
 def get_user(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the db
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
         return abort(401, description="Unauthorized user")
-    # Query database for user
+    # Query database for user filtering by id
     user_in_db = User.query.filter_by(id=id).first()
     # Return an error if the user doesn't exist
     if not user_in_db:
@@ -55,7 +55,7 @@ def get_user(id):
 def create_user():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the db
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -109,12 +109,12 @@ def update_user(id):
 def delete_user(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the db
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
         return abort(401, description="You are not authorized to delete users")
-    # Find the user
+    # Find the user in the database filtering by ID
     find_user = User.query.filter_by(id=id).first()
     # Return an error if the user doesn't exist
     if not find_user:

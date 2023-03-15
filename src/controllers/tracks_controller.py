@@ -16,7 +16,7 @@ tracks = Blueprint('tracks', __name__, url_prefix="/tracks")
 def get_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -35,12 +35,12 @@ def get_tracks():
 def get_track(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
         return abort(401, description="Unauthorized user")
-    # Find the track in the database by id
+    # Find the track in the database filtering by id
     track = Track.query.filter_by(id=id).first()
     # Stop the request if the track does not exist
     if not track:
@@ -57,7 +57,7 @@ def get_track(id):
 def get_user_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     #  Stop the request if the user is invalid
     if not user:
@@ -87,7 +87,7 @@ def get_user_tracks():
 def get_user_track(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -119,7 +119,7 @@ def get_user_track(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -158,7 +158,7 @@ def search_tracks():
 def create_track():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -216,7 +216,7 @@ def update_tracks(id):
 def delete_track(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:

@@ -16,7 +16,7 @@ records = Blueprint('records', __name__, url_prefix="/records")
 def get_records():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -35,7 +35,7 @@ def get_records():
 def get_record(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -57,7 +57,7 @@ def get_record(id):
 def get_user_records():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -83,7 +83,7 @@ def get_user_records():
 def get_user_record(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -113,7 +113,7 @@ def get_user_record(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -147,7 +147,7 @@ def search_tracks():
 def create_record():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -203,7 +203,7 @@ def update_record(id):
 def delete_record(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -216,7 +216,7 @@ def delete_record(id):
     # Stop the request if the user is unauthorized
     if not relationship:
         return abort(401, description="Unauthorized user")
-    # Find the record
+    # Find the record in the db filtered by id
     record = Record.query.filter_by(id=id).first()
     # Return an error if the record doesn't exist
     if not Record:

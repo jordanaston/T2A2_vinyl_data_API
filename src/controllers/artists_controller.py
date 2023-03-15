@@ -16,7 +16,7 @@ artists = Blueprint('artists', __name__, url_prefix="/artists")
 def get_artists():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -35,7 +35,7 @@ def get_artists():
 def get_artist(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -57,7 +57,7 @@ def get_artist(id):
 def get_user_artists():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -84,7 +84,7 @@ def get_user_artists():
 def get_user_artist(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -115,7 +115,7 @@ def get_user_artist(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -144,7 +144,7 @@ def search_tracks():
 def create_artist():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:
@@ -195,7 +195,7 @@ def update_artist(id):
 def delete_artist(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is invalid
     if not user:

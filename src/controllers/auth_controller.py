@@ -13,7 +13,7 @@ auth = Blueprint('auth', __name__, url_prefix="/auth")
 def auth_register():
     # The request data loaded in a user_schema 
     user_fields = user_schema.load(request.json)
-    # Find the user
+    # Query the User table for the first user with the given email address
     user = User.query.filter_by(email=user_fields["email"]).first()
     # Return an abort message to inform the user is already registered. 
     if user:
@@ -42,7 +42,7 @@ def auth_register():
 def auth_login():
     # Get the user data from the request
     user_fields = user_schema.load(request.json)
-    # Find the user in the database by email
+    # Query the User table for the first user with the given email address
     user = User.query.filter_by(email=user_fields["email"]).first()
     # If there is no user with that email or if the password isn't correct send an error
     if not user or not bcrypt.check_password_hash(user.password, user_fields["password"]):

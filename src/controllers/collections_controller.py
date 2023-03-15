@@ -13,7 +13,7 @@ collections = Blueprint('collections', __name__, url_prefix="/collections")
 def get_collections():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
@@ -32,12 +32,12 @@ def get_collections():
 def get_collection(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Find it in the database
+    # Retrieves a user object from the database based on the provided user ID
     user = User.query.get(user_id)
     # Stop the request if the user is not an admin
     if not user.admin:
         return abort(401, description="Unauthorized user")
-    # Check if collection exists in database
+    # Check if collection exists in database filtered by id
     collection = Collection.query.filter_by(id=id).first()
     # Return an error if the collection doesn't exist
     if not collection:
