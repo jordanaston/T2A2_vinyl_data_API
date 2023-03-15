@@ -109,6 +109,35 @@ def get_user_artist(id):
     return jsonify(result)
 
 
+# The GET routes endpoint returning any artist created by the user filtered by artist name
+@artists.route("/search", methods=["GET"])
+@jwt_required()
+def search_tracks():
+    # Get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    # Find it in the database
+    user = User.query.get(user_id)
+    # Stop the request if the user is invalid
+    if not user:
+        return abort(401, description="Invalid user")
+    # Retrieve the value of the 'artist_name' parameter from the request
+    artist_name = request.args.get('artist_name')
+    # Query the database to retrieve a list of artists whose name matches the 'artist_name' parameter and 
+    # whose records are associated with a collection belonging to the specified 'user_id'
+    artists_list = Artist.query \
+                .join(Record) \
+                .join(Collection) \
+                .filter(Artist.artist_name == artist_name, Collection.user_id == user_id) \
+                .all()
+    # Check if the artist searched for is in the user's collection, if not return a 400 error with a message.
+    if not artists_list:
+        return abort(400, description= "Artist not in your collection")
+    # Convert the tracks from the database into a JSON format and store them in result
+    result = artists_schema.dump(artists_list)
+    # Return the data in JSON format
+    return jsonify(result) 
+
+
 # The POST route endpoint, any logged in user can post a new artist to the database
 @artists.route("/", methods=["POST"])
 @jwt_required()

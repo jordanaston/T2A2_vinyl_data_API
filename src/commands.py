@@ -95,7 +95,7 @@ def seed_db():
 
     record3 = Record(
         # set the attributes, not the id, SQLAlchemy will manage that for us
-        album_title = "Motel Music Pt. III",
+        album_title = "Motel Music Part 3",
         rpm = 45,
         artist_id = artist3.id
     )

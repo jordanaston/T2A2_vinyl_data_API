@@ -111,7 +111,7 @@ def get_user_track(id):
     # Return the data in JSON format
     return jsonify(result)
 
-# The GET routes endpoint returning any tracks created by the user with a specifc bpm or key
+# The GET routes endpoint returning any tracks created by the user with a specifc track_title, bpm or key
 # Remember when searching for the 'key' of a track with a sharp (#), replace "# " with "%23%20". EG: A# Major = A%23%20Major
 @tracks.route("/search", methods=["GET"])
 @jwt_required()
@@ -125,8 +125,12 @@ def search_tracks():
         return abort(401, description="Invalid user")
     # Create an empty list in case the query string is not valid
     tracks_list = []
+    # Check if a "track_title" query parameter was included in the request
+    if request.args.get('track_title'):
+    # If a "track_title" parameter was provided, filter the Track query by track_title value
+        tracks_list = Track.query.filter_by(track_title= request.args.get('track_title'))
     # Check if a "bpm" query parameter was included in the request
-    if request.args.get('bpm'):
+    elif request.args.get('bpm'):
     # If a "bpm" parameter was provided, filter the Track query by bpm value
         tracks_list = Track.query.filter_by(bpm= request.args.get('bpm'))
     # Check if a "key" query parameter was included in the request
@@ -138,6 +142,9 @@ def search_tracks():
                             .join(Collection, Record.id == Collection.record_id)\
                             .filter(Collection.user_id == user_id)\
                             .all()
+    # Check if the track searched for is in the user's collection, if not return a 400 error with a message.
+    if not tracks_list:
+        return abort(400, description= "Not found in your collection")  
     # Convert the tracks from the database into a JSON format and store them in result
     result = tracks_schema.dump(tracks_list)
     # Return the data in JSON format

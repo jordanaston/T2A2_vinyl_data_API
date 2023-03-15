@@ -106,6 +106,41 @@ def get_user_record(id):
     # Return the data in JSON format
     return jsonify(result)
 
+
+# The GET routes endpoint returning any records created by the user with a specifc album_title, rpm
+@records.route("/search", methods=["GET"])
+@jwt_required()
+def search_tracks():
+    # Get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    # Find it in the database
+    user = User.query.get(user_id)
+    # Stop the request if the user is invalid
+    if not user:
+        return abort(401, description="Invalid user")
+    # Create an empty list in case the query string is not valid
+    records_list = []
+    # Check if a "album_title" query parameter was included in the request
+    if request.args.get('album_title'):
+    # If an "album_title" parameter was provided, filter the Record query by album_title value
+        records_list = Record.query.filter_by(album_title= request.args.get('album_title'))
+    # Check if an "rpm" query parameter was included in the request
+    elif request.args.get('rpm'):
+    # If an "rpm" parameter was provided, filter the Record query by rpm value
+        records_list = Record.query.filter_by(rpm= request.args.get('rpm'))
+    # Filter the records by user
+    records_list = records_list.join(Collection, Record.id == Collection.record_id)\
+                            .filter(Collection.user_id == user_id)\
+                            .all()     
+    # Check if the record searched for is in the user's collection, if not return a 400 error with a message.
+    if not records_list:
+        return abort(400, description= "Not found in your collection")            
+    # Convert the records from the database into a JSON format and store them in result
+    result = records_schema.dump(records_list)
+    # Return the data in JSON format
+    return jsonify(result)  
+
+
 # The POST route endpoint, any logged in user can post a new record to the database
 @records.route("/", methods=["POST"])
 @jwt_required()
