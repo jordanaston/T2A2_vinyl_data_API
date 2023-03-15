@@ -111,6 +111,38 @@ def get_user_track(id):
     # Return the data in JSON format
     return jsonify(result)
 
+# The GET routes endpoint returning any tracks created by the user with a specifc bpm or key
+# Remember when searching for the 'key' of a track with a sharp (#), replace "# " with "%23%20". EG: A# Major = A%23%20Major
+@tracks.route("/search", methods=["GET"])
+@jwt_required()
+def search_tracks():
+    # Get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    # Find it in the database
+    user = User.query.get(user_id)
+    # Stop the request if the user is invalid
+    if not user:
+        return abort(401, description="Invalid user")
+    # Create an empty list in case the query string is not valid
+    tracks_list = []
+    # Check if a "bpm" query parameter was included in the request
+    if request.args.get('bpm'):
+    # If a "bpm" parameter was provided, filter the Track query by bpm value
+        tracks_list = Track.query.filter_by(bpm= request.args.get('bpm'))
+    # Check if a "key" query parameter was included in the request
+    elif request.args.get('key'):
+    # If a "key" parameter was provided, filter the Track query by key value
+        tracks_list = Track.query.filter_by(key= request.args.get('key'))
+    # Filter the tracks by user
+    tracks_list = tracks_list.join(Record, Track.record_id == Record.id)\
+                            .join(Collection, Record.id == Collection.record_id)\
+                            .filter(Collection.user_id == user_id)\
+                            .all()
+    # Convert the tracks from the database into a JSON format and store them in result
+    result = tracks_schema.dump(tracks_list)
+    # Return the data in JSON format
+    return jsonify(result)  
+
 
 # The POST route endpoint, any logged in user can post a new track to the database
 @tracks.route("/", methods=["POST"])
