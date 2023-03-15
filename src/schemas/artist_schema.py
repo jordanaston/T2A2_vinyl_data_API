@@ -1,14 +1,14 @@
 from main import ma
-from marshmallow import fields
 
-#create the Card Schema with Marshmallow, it will provide the serialization needed for converting the data into JSON
+# Artist Schema created with Marshmallow, providing serialization needed for converting the data into JSON
 class ArtistSchema(ma.Schema):
     class Meta:
+        # Orders the response from alphabetical to the order of the fields
         ordered = True
         # Fields to expose
         fields = ("id", "artist_name")
     
-#single card schema, when one card needs to be retrieved
+# Single artist schema, when one artist needs to be retrieved
 artist_schema = ArtistSchema()
-#multiple card schema, when many cards need to be retrieved
+# Multiple artists schema, when many artists need to be retrieved
 artists_schema = ArtistSchema(many=True)

@@ -1,9 +1,9 @@
 from main import db
 
 class Track(db.Model):
-    # define the table name for the db
+    # Define the table name for the db
     __tablename__= "tracks"
-    # Set the primary key, we need to define that each attribute is also a column in the db table, remember "db" is the object we created in the previous step.
+    # Set the primary key, and field properties
     id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     # Add the rest of the attributes. 
     track_title = db.Column(db.String(), nullable=False)

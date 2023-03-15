@@ -5,7 +5,6 @@ from models.collections import Collection
 from models.users import User
 from models.artists import Artist
 from schemas.record_schema import record_schema, records_schema
-from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 # Create a Flask Blueprint for the /records endpoint
