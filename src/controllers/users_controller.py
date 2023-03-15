@@ -125,3 +125,4 @@ def delete_user(id):
     # Return the user in the response
     return jsonify(user_schema.dump(find_user))
 
+

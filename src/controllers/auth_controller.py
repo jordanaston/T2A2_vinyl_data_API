@@ -54,3 +54,4 @@ def auth_login():
     # Return the user email and the access token
     return jsonify({"user":user.email, "token": access_token })
 
+

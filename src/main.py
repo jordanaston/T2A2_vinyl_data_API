@@ -4,39 +4,34 @@ from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
+# Instantiate SQLAlchemy object for object-relational mapping
 db = SQLAlchemy()
+# Instantiate Marshmallow object for object serialization and deserialization
 ma = Marshmallow()
+# Instantiate Bcrypt object for password hashing and verification
 bcrypt = Bcrypt()
+# Instantiate JWTManager object for JSON Web Token (JWT) handling
 jwt = JWTManager()
 
 def create_app():
-    # using a list comprehension and multiple assignment 
-    # to grab the environment variables we need
-    
-    # Creating the flask app object - this is the core of our app!
+    # Create the flask app object
     app = Flask(__name__)
-
-    # configuring our app:
+    # Congfigure the app
     app.config.from_object("config.app_config")
-
-    # creating our database object! This allows us to use our ORM
+    # Create the database object allowing for ORM use
     db.init_app(app)
-
+    # Initialize the Marshmallow object with the Flask app instance
     ma.init_app(app)
-
-    #creating the jwt and bcrypt objects! this allows us to use authentication
+    # Create the jwt and bcrypt objects allowing for authentication
     bcrypt.init_app(app)
     jwt.init_app(app)
-
+    # Import and register the database-related command blueprint
     from commands import db_commands
     app.register_blueprint(db_commands)
-
-    # import the controllers and activate the blueprints
+    # Imports the controllers and activate the blueprints
     from controllers import registerable_controllers
-
     for controller in registerable_controllers:
         app.register_blueprint(controller)
-    
     return app
 
 

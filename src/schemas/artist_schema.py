@@ -7,7 +7,7 @@ class ArtistSchema(ma.Schema):
         ordered = True
         # Fields to expose
         fields = ("id", "artist_name")
-    
+        
 # Single artist schema, when one artist needs to be retrieved
 artist_schema = ArtistSchema()
 # Multiple artists schema, when many artists need to be retrieved

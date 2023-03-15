@@ -111,6 +111,7 @@ def get_user_track(id):
     # Return the data in JSON format
     return jsonify(result)
 
+
 # The GET routes endpoint returning any tracks created by the user with a specifc track_title, bpm or key
 # Remember when searching for the 'key' of a track with a sharp (#), replace "# " with "%23%20". EG: A# Major = A%23%20Major
 @tracks.route("/search", methods=["GET"])

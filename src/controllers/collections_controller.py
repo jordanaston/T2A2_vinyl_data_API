@@ -25,6 +25,7 @@ def get_collections():
     # Return the data in JSON format
     return jsonify(result)
 
+
 # The GET routes endpoint for a single collection (admin required)
 @collections.route("/<int:id>/", methods=["GET"])
 @jwt_required()
@@ -45,5 +46,6 @@ def get_collection(id):
     result = collection_schema.dump(collection)
     # Return the data in JSON format
     return jsonify(result)
+
 
 

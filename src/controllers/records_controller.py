@@ -76,6 +76,7 @@ def get_user_records():
     # Return the data in JSON format
     return jsonify(result)
 
+
 # The GET routes endpoint returning a specific record created by a user
 @records.route("/user/<int:id>/", methods=["GET"])
 @jwt_required()

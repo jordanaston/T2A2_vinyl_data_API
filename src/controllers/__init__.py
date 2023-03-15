@@ -5,6 +5,7 @@ from controllers.artists_controller import artists
 from controllers.tracks_controller import tracks
 from controllers.auth_controller import auth
 
+# List of registerable controllers containing endpoints for the various resources
 registerable_controllers = [
     auth,
     users,
