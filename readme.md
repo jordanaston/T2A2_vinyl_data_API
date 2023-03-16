@@ -6,9 +6,6 @@
 
 ## [ERD](https://lucid.app/lucidchart/d8cb7ec3-cc3f-4a87-9c4e-fb1cdca5ede5/edit?beaconFlowId=7667C101FE8BEC9D&invitationId=inv_67be62fc-84b6-48ff-a61c-5fddeeebbc8a&page=0_0#)
 
-<br>
-<p align="center"> ERD </p>
-<p align="center"><img src="./docs/ERD.png" width = 100%></p>
 
 <br>
 
@@ -213,6 +210,41 @@ The JWT contains encoded information about the user's identity and permissions. 
 
 
 ## **R6 / R9: Explanation of ERD and Database Relations Implementation**
+
+Presented below is an Entity Relationship Diagram (ERD) that illustrates the connections between the tables within the relational database implemented in this project. Each table is depicted as an entity in the diagram, with the attributes or fields of the database table being represented as corresponding elements in the ERD. The primary key, which serves as the unique identifier for each table, is included in every entity. The third column of each entity in the ERD shows the attribute's datatype and indicates if it is mandatory for the database table entry (NOT NULL). Additionally, foreign keys are present in some tables, signifying a connection between two tables. This relationship is also shown through the crow's foot notation utilized in the diagram.
+
+<p align="center"> ERD </p>
+<p align="center"><img src="./docs/ERD.png" width = 100%></p>
+
+## **Entities**
+
+**User**
+
+The “user” table retains details regarding users who intend to store information about their vinyl record collection in the database. The attributes contained in the table are user_id (allowing them to access the system) user_name (a self-selected username for the application), email (utilized for user identification), password (used for authentication purposes), and admin, which stores a boolean value that authenticates and authorizes users. The relationship between the user and record table is many to many, as many users can own many records and many records can belong to many users. Because of this a new entity titled “collection” was created to represent this relationship between user and records.
+
+**Collection**
+
+Since the many to many relationship between user and record was handled by the creation of this table, we now have a 1 to many relationship between user and collection. The attributes included in this entity are collection_id, user_id and record_id. With the former being the primary key and the others, foreign keys. The purpose of this table, is to create a unique identifier (PK) that points to each collection in the database (relationship between user and record). It’s not a table that needs to be accessed by regular users, but rather a “background” table doing the job of handling a many to many relationship in the database. 
+
+**Record / Artist** 
+
+The record table acts as a kind of centre point to the application. Because it is linked to users through collections and has a dependent table (tracks). The PK in this table is record_id, which is a unique identifier for every album (record) entered into the database. The attributes of this table include album_title (name of the album), RPM (rotations per minute eg: 30 or 45) and artist_id (FK), which is the PK from the artist table. 
+
+Originally, the artist_id was included as an attribute in this table but was later moved out to create a table of its own. This was done to help normalise the database as you might find the same artist many times in this table. We also now have a 1 to many relationship between the artist and record tables because 1 artist can have many records, but each record belongs to a single artist. The artist table was kept simple and only includes the artist_id and artist_name as it was moved out for the purpose of normalization. Since we have a 1 to many relationship here, we can think of the record table as being dependent on the artist table. In order for a record to exist, there must be an artist.
+
+**Track**
+
+The track table lies at the end of the chain so to speak. Because no tables depend on the track table, if a track was to be deleted from the database, no other data should be affected. The track table includes a track_id (identified each unique track), track_title (name of the track), BPM (beats per minute or tempo eg: 120bpm), key (eg: A Minor), and record_id, which represents the 1 to many relationship between the record and track tables. This relationship is one to many because 1 record can have many tracks but each track belongs to only 1 record. 
+
+As you can see from the ERD, not every attribute was made nullable. The ones that are nullable, are attributes that without an entry, would not effect the relationship between the entities in the database, helping normalize and strengthen the database structure. 
+
+**Relationships again:**
+
+- Many to Many between the user and record tables: creating a collection table.
+- 1 to Many between the artist and record tables.
+- 1 to Many between the record and track tables.
+
+
 
 ## **R8: Project Models and their Relationships with each other**
 
