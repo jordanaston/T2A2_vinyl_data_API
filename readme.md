@@ -176,11 +176,11 @@ Each card was given a cover with a certain colour to represent the kind of work 
 
 When a card is opened there are certain attributes that helped define how urgent or important a task was. A power-up was installed called Card Priority Badge. The power-up meant that you could assign each card a level of importance (essentially from 1-4) which included an icon that would be shown on the outside of the card so they could be easily seen when scanning through the Trello board.
 
-<p style="text-align: center;"> Card Priority Badges looked like this inside the card: </p>
-<p align="center"><img src="./docs/card-priority-screenshot.png" width = 80%></p>
+<p align="center"> Card Priority Badges looked like this inside the card: </p>
+<p align="center"><img src="./docs/card-priority-screenshot.png" width = 60%></p>
 
 <p style="text-align: center;"> Card Priority Badges looked like this outside the card: </p>
-<p align="center"><img src="./docs/priority-badge-screenshot.png" width = 80%></p>
+<p align="center"><img src="./docs/priority-badge-screenshot.png" width = 40%></p>
 
 A due date reminder was also set to each card that was designed to that 1 day before each card was due, I would receive a notification via email to prompt me to view the card and read over the checklist. As the tasks were completed, the checklist was gradually ticked off until the card was complete.
 
