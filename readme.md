@@ -8,7 +8,7 @@
 
 <br>
 <p align="center"> ERD </p>
-<p align="center"><img src="./docs/ERD.png" width = 80%></p>
+<p align="center"><img src="./docs/ERD.png" width = 100%></p>
 
 <br>
 
@@ -33,12 +33,12 @@ As a listener of vinyl records, you probably aren’t as fussed about the BPM an
 The following images are screenshots taken from Reddit, showing the need for this type of vinyl data organization:
 
 <p align="center"> Reddit screenshot 1: </p>
-<p align="center"><img src="./docs/reddit-screenshot.png" width = 80%></p>
+<p align="center"><img src="./docs/reddit-screenshot.png" width = 70%></p>
 <p align="center">(shoyei, 2019)</p>
 <br>
 
 <p align="center"> Reddit screenshot 2: </p>
-<p align="center"><img src="./docs/reddit-screenshot-2.png" width = 80%></p>
+<p align="center"><img src="./docs/reddit-screenshot-2.png" width = 70%></p>
 <p align="center">(ceeroSVK, 2022)</p>
 <br>
 
