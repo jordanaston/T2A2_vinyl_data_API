@@ -99,6 +99,55 @@ In this particular application, the use of an RDMS provides several advantages o
 
 ## **R4: Functionalities and Benefits of an ORM**
 
+ORM, or Object-Relational Mapping, is a programming technique that establishes a connection between object-oriented programs and relational databases, typically through a bridge mechanism. In other words, an ORM can be thought of as that layer that links OOP (object-oriented programming) to the relational database. 
+
+In OOP languages, when working with databases, there are four primary operations that are performed to manipulate data. They are: create, read, update, and delete (CRUD). These operations are typically carried out in relational databases using SQL, as per its design.
+
+Typically, queries using SQL are made to perform these actions on the data in a database. While this is perfectly acceptable and even required, ORM and ORM tools are there to facilitate an alternate method of interacting between the database and various OOP languages such as Python for a number of reasons. 
+
+*“With ORM tools in place to manage the data interface, developers don’t need to worry about building the perfect database schema beforehand.”* (Contributor, 2022)
+
+To give an idea of how an ORM such as SQLAlchemy can be used to streamline queries and make them easier for a developer to implement, we’ll take a look at an example from the code of this project.
+
+The following is an example of SQL code that “gets” data about a record (vinyl record) from the database:
+
+```
+select * from "records" where id = 1;
+```
+The code returns data bout the record (with id = 1) stored in the database. In this example, the data will include record_id, album_title, rpm and user_id. Whereas, a tool in ORM can perform the same query in a different format. 
+
+```
+Record.query.filter_by(id=id).first()
+```
+This allows for a few things. You can define an object to this line of code and return the “jsonified” version of this object to the browser or a tool such as Postman or Insomnia. You can build a function around this object and create a route that includes a GET method and takes the record_id as a parameter so that when searching for the specific record in the browser (or Postman/ Insomnia) you can filter out the other records in the table in order to retrieve the one you are looking for.
+
+This way of working applies to all of the CRUD functionalities and will be implemented in all routes that are created in the controllers. To break that down, The ORM provides a high-level query language that enables developers to retrieve data from the database using object-oriented concepts. This query language typically translates to SQL statements that are executed against the database.
+
+ORM also maps database tables to classes and objects in the programming language used. This mapping is often defined using metadata, such as annotations or configuration files. Mapping enables developers to work with the database using familiar object-oriented programming concepts.
+
+*“ORMs create a model of the object-oriented program with a high-level of abstraction. In other words, it makes a level of logic without the underlying details of the code. Mapping describes the relationship between an object and the data without knowing how the data is structured.”* (Liang, 2021)
+
+ORM also provides mechanisms for modelling relationships between objects, such as one-to-one, one-to-many, and many-to-many relationships. It provides mechanisms for validating objects before they are persisted to the database. This can involve checking that objects meet certain criteria, such as having valid values for required fields, and that they do not violate any constraints or business rules.
+
+The ORM also provides tools for managing the database schema, such as creating tables, modifying columns, and generating schema migrations. This simplifies the process of making changes to the database schema and ensures that the application's data model remains in sync with the database.
+
+**Benefits of using on ORM:**
+
+An ORM abstracts the underlying database operations, allowing developers to work with objects and classes in the programming language of their choice rather than writing SQL queries directly. This makes it easier to write and maintain code, especially for developers who are not as familiar with SQL or the specific database being used.
+
+*“Object-relational mapping tools help developers automate object-to-table and table-to-object data conversion while connecting a database to an application with minimum SQL knowledge. O/R mapping allows developers to overcome the challenges of writing and interpreting SQL code and instead focus on generating business logic to ensure higher productivity with lower development and maintenance costs.”* (Contributor, 2022)
+
+Since an ORM provides a layer of abstraction between the application and the database, it makes the application platform-independent. This means that the application can be ported to a different database system with minimal changes to the code.
+
+ORM tools can significantly reduce the amount of boilerplate code that developers have to write when working with databases, allowing them to focus on writing business logic instead. This can lead to faster development times and increased productivity.
+
+*“Manually writing data-access code is massively tedious work taking up much of developers’ valuable time without adding much value to an application’s functionality. Leveraging an O/R mapping tool helps developers significantly reduce development time by automatically generating the code.”* (Contributor, 2022)
+
+ORMs can help prevent SQL injection attacks, a common type of attack where malicious SQL statements are inserted into user input. By using parameterized queries, an ORM can prevent these attacks and help ensure the security of the application.
+
+*“An effective ORM tool also ensures security for applications by shielding them from SQL injection attacks. The O/R mapping framework helps to filter the data to ensure robust safety for the developed applications.”* (Contributor, 2022)
+
+Since an ORM provides a high-level interface to the database, it can make code more maintainable by reducing the amount of low-level SQL code that developers have to manage. This can make it easier to refactor the code as needed and make changes to the database schema.
 
 
 ## **R5: API Endpoints**
@@ -118,3 +167,7 @@ shoyei (2019). Vinyl DJ’s - how do you organize your collection? [online] Avai
 ceeroSVK (2022). Vinyl djs: Do you catalogize BPM for your tunes somehow? [online] Available at: https://www.reddit.com/r/Beatmatch/comments/vwmhgz/vinyl_djs_do_you_catalogize_bpm_for_your_tunes/ [Accessed 12 Mar. 2023].
 
 MariaDB (2018). ACID Compliance: What It Means and Why You Should Care. [online] MariaDB. Available at: https://mariadb.com/resources/blog/acid-compliance-what-it-means-and-why-you-should-care/.
+
+Contributor, S. (2022). Why Do We Need Object-Relational Mapping? [online] Software Reviews, Opinions, and Tips - DNSstuff. Available at: https://www.dnsstuff.com/why-do-we-need-object-relational-mapping [Accessed 12 Mar. 2023].
+
+Liang, M. (2021). Understanding Object-Relational Mapping: Pros, Cons, and Types. [online] AltexSoft. Available at: https://www.altexsoft.com/blog/object-relational-mapping/.
