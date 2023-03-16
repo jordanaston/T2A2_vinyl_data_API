@@ -28,14 +28,14 @@ As a listener of vinyl records, you probably aren’t as fussed about the BPM an
 
 The following images are screenshots taken from Reddit, showing the need for this type of vinyl data organization:
 
-<p style="text-align: center;"> Reddit screenshot 1: </p>
+<p align="center"> Reddit screenshot 1: </p>
 <p align="center"><img src="./docs/reddit-screenshot.png" width = 80%></p>
-<p style="text-align: center;">(shoyei, 2019)</p>
+<p align="center">(shoyei, 2019)</p>
 <br>
 
-<p style="text-align: center;"> Reddit screenshot 2: </p>
+<p align="center"> Reddit screenshot 2: </p>
 <p align="center"><img src="./docs/reddit-screenshot-2.png" width = 80%></p>
-<p style="text-align: center;">(ceeroSVK, 2022)</p>
+<p align="center">(ceeroSVK, 2022)</p>
 <br>
 
 This API is designed to assist **vinyl DJs** when performing live in the following ways:
@@ -179,7 +179,7 @@ When a card is opened there are certain attributes that helped define how urgent
 <p align="center"> Card Priority Badges looked like this inside the card: </p>
 <p align="center"><img src="./docs/card-priority-screenshot.png" width = 60%></p>
 
-<p style="text-align: center;"> Card Priority Badges looked like this outside the card: </p>
+<p align="center"> Card Priority Badges looked like this outside the card: </p>
 <p align="center"><img src="./docs/priority-badge-screenshot.png" width = 40%></p>
 
 A due date reminder was also set to each card that was designed to that 1 day before each card was due, I would receive a notification via email to prompt me to view the card and read over the checklist. As the tasks were completed, the checklist was gradually ticked off until the card was complete.
