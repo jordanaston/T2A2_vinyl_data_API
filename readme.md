@@ -160,6 +160,46 @@ Since an ORM provides a high-level interface to the database, it can make code m
 
 ## **R10: Planning and Tracking of Tasks**
 
+**Trello Board: T2A2 - Vinyl Data API**
+
+Trello was chosen as the tool to plan and track tasks for this project. This allowed for small portions of work to be defined as checklists inside cards that represent the larger concept. 
+
+The Trello workspace was separated into 3 main parts:
+
+**To Do:** An organized schedule of tasks that have been arranged in order of importance and are prepared for implementation.
+
+**Doing:** Tasks that are currently being worked on. This is the section that was revisited the most, especially to view the questions/reminders card. This card was extremely useful as a one-stop place for any ideas that popped up during production. Questions that needed answers, reminders or instructions on how to do something later.
+
+**Done:** When cards were completed, they would be sent to this list.
+
+Each card was given a cover with a certain colour to represent the kind of work that needed to be done. This was used as an eye-catcher and helped to quickly identify what “type” of work was left to do. Red represented rubric questions, yellow represented the core modules of the code in terms of MVC, purple was for authorization and authentication, dark green was for questions/ reminders and blue was generally for anything to do with the readme.md file. This exact pattern had exceptions, eg: when the Trello board was initially created, there were some blue and green cards made for tasks to do with starting the project and working on the ERD. Because they were done so soon, they were left the way they were. Colour coding was also added as labels inside the cards.
+
+When a card is opened there are certain attributes that helped define how urgent or important a task was. A power-up was installed called Card Priority Badge. The power-up meant that you could assign each card a level of importance (essentially from 1-4) which included an icon that would be shown on the outside of the card so they could be easily seen when scanning through the Trello board.
+
+<p style="text-align: center;"> Card Priority Badges looked like this inside the card: </p>
+<p align="center"><img src="./docs/card-priority-screenshot.png" width = 80%></p>
+
+<p style="text-align: center;"> Card Priority Badges looked like this outside the card: </p>
+<p align="center"><img src="./docs/priority-badge-screenshot.png" width = 80%></p>
+
+A due date reminder was also set to each card that was designed to that 1 day before each card was due, I would receive a notification via email to prompt me to view the card and read over the checklist. As the tasks were completed, the checklist was gradually ticked off until the card was complete.
+
+Below are screenshots capturing the gradual completion of tasks within the cards:
+
+<p align="center"><img src="./docs/trello-1.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-2.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-3.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-4.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-5.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-6.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-7.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-8.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-9.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-10.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-11.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-12.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-13.png" width = 80%></p>
+
 ## **References:**
 
 shoyei (2019). Vinyl DJ’s - how do you organize your collection? [online] Available at: https://www.reddit.com/r/DJs/comments/bcimyk/vinyl_djs_how_do_you_organize_your_collection/ [Accessed 12 Mar. 2023].
