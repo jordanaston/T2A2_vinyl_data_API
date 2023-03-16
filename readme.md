@@ -248,6 +248,133 @@ As you can see from the ERD, not every attribute was made nullable. The ones tha
 
 ## **R8: Project Models and their Relationships with each other**
 
+The models in this project are implemented using SQLAlchemy ORM for handling database operations. There are five main classes in the code representing the tables in the database: User, Collection, Record, Artist, and Track. Each class inherits from db.Model, which is a base class for all models in SQLAlchemy.
+
+**User class: Represents a user in the system**
+
+- **__ tablename __:** Sets the name of the table in the database to "users".
+id: Primary key column with auto-incrementing integer values.
+- **user_name, email, password, and admin:** Additional attributes with various constraints (e.g., nullable=False means the attribute must have a value, and unique=True means the attribute value must be unique across all users).
+- **collections:** One-to-many relationship between User and Collection. When a user is deleted, all associated collections will also be deleted due to the "cascade" parameter.
+
+**Collection class: Represents a collection of records owned by a user**
+
+- **__ tablename __:** Sets the table name to "collections".
+- **id:** Primary key column.
+- **user_id:** Foreign key column referencing the 'users.id' column, establishing a relationship with the User table.
+- **record_id:** Foreign key column referencing the 'records.id' column, establishing a relationship with the Record table.
+
+**Record class: Represents a vinyl record (album)**
+
+- **__ tablename __:** Sets the table name to "records".
+- **id:** Primary key column.
+- **album_title, rpm, and artist_id:** Additional attributes, with 'artist_id' being a foreign key referencing the 'artists.id' column.
+- **collections:** One-to-many relationship with Collection. When a record is deleted, all associated collections will also be deleted due to the "cascade" parameter.
+- **tracks:** One-to-many relationship with Track. When a record is deleted, all associated tracks will also be deleted due to the "cascade" parameter.
+
+**Artist class: Represents a music artist**
+
+- **__ tablename __:** Sets the table name to "artists".
+- **id:** Primary key column.
+- **artist_name:** Additional attribute.
+- **records:** One-to-many relationship with Record. When an artist is deleted, all associated records will also be deleted due to the "cascade" parameter.
+
+**Track class: Represents a track in a record (album)**
+
+- **__ tablename __:** Sets the table name to "tracks".
+- **id:** Primary key column.
+- **track_title, bpm, key, and record_id:** Additional attributes, with 'record_id' being a foreign key referencing the 'records.id' column.
+
+**Associations between the models:**
+
+- A User can have multiple Collections.
+- A Collection is associated with one User and one Record.
+- An Artist can have multiple Records.
+- A Record is associated with one Artist and can have multiple Tracks and Collections.
+- A Track is associated with one Record.
+
+The code uses SQLAlchemy's relationship() function to establish these associations. The backref parameter creates a reverse relationship, making it easy to navigate from one side of the relationship to the other (e.g. from Record to Artist, and vice versa). The cascade parameter ensures that when a parent record is deleted, all related child records are deleted as well.
+
+To elborate further on the code:
+
+**User and Collection:**
+
+```
+collections = db.relationship(
+    "Collection",
+    backref="user",
+    cascade="all, delete"
+)
+```
+
+This line establishes that one user can have multiple collections. The backref parameter creates a reverse relationship, allowing you to access the User model from the Collection model using the "user" attribute.
+
+In the Collection class, there are foreign key columns for both user_id and record_id:
+
+```
+user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
+These columns reference the primary keys of the User and Record tables, respectively, to create the associations between these models.
+```
+
+**Artist and Record:**
+
+```
+records = db.relationship(
+    "Record",
+    backref="artist",
+    cascade="all, delete"
+)
+```
+
+This line establishes that one artist can have multiple records. The backref parameter creates a reverse relationship, allowing you to access the Artist model from the Record model using the "artist" attribute.
+
+In the Record class, the artist_id column is a foreign key referencing the 'artists.id' column:
+
+```
+artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
+This column creates the association between the Record and Artist models.
+```
+
+**Record and Track:**
+
+```
+tracks = db.relationship(
+    "Track",
+    backref="record",
+    cascade="all, delete"
+)
+```
+
+This line establishes that one record can have multiple tracks. The backref parameter creates a reverse relationship, allowing you to access the Record model from the Track model using the "record" attribute.
+
+In the Track class, the record_id column is a foreign key referencing the 'records.id' column:
+
+```
+record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
+```
+
+This column creates the association between the Track and Record models.
+
+**Collection and Record:**
+
+As mentioned earlier, the Collection class has a foreign key column record_id, which references the primary key of the Record table:
+
+```
+record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
+```
+```
+collections = db.relationship(
+    "Collection",
+    backref="record",
+    cascade="all, delete"
+)
+```
+
+This line establishes that one record can be part of multiple collections. The backref parameter creates a reverse relationship, allowing you to access the Record model from the Collection model using the "record" attribute.
+
+
+
 ## **R10: Planning and Tracking of Tasks**
 
 **Trello Board: T2A2 - Vinyl Data API**
