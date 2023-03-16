@@ -301,3 +301,13 @@ MariaDB (2018). ACID Compliance: What It Means and Why You Should Care. [online]
 Contributor, S. (2022). Why Do We Need Object-Relational Mapping? [online] Software Reviews, Opinions, and Tips - DNSstuff. Available at: https://www.dnsstuff.com/why-do-we-need-object-relational-mapping [Accessed 12 Mar. 2023].
 
 Liang, M. (2021). Understanding Object-Relational Mapping: Pros, Cons, and Types. [online] AltexSoft. Available at: https://www.altexsoft.com/blog/object-relational-mapping/.
+
+enqueuezero.com. (n.d.). The Architecture of SQLAlchemy | Enqueue Zero. [online] Available at: https://enqueuezero.com/architecture/sqlalchemy.html#overview [Accessed 16 Mar. 2023].
+
+flask-marshmallow.readthedocs.io. (n.d.). Flask-Marshmallow: Flask + marshmallow for beautiful APIs — Flask-Marshmallow 0.14.0 documentation. [online] Available at: https://flask-marshmallow.readthedocs.io/en/latest/.
+
+www.doppler.com. (n.d.). Using Environment Variables in Python for App Configuration and Secrets. [online] Available at: https://www.doppler.com/blog/environment-variables-in-python [Accessed 16 Mar. 2023].
+
+Patel, H. (2022). Password hashing in Node.js with bcrypt. [online] LogRocket Blog. Available at: https://blog.logrocket.com/password-hashing-node-js-bcrypt/#:~:text=Bcrypt%20is%20a%20library%20to [Accessed 16 Mar. 2023].
+
+flask-jwt-extended.readthedocs.io. (n.d.). Basic Usage — flask-jwt-extended 4.4.4 documentation. [online] Available at: https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage/.
