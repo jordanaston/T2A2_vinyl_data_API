@@ -7,6 +7,10 @@
 ## [ERD](https://lucid.app/lucidchart/d8cb7ec3-cc3f-4a87-9c4e-fb1cdca5ede5/edit?beaconFlowId=7667C101FE8BEC9D&invitationId=inv_67be62fc-84b6-48ff-a61c-5fddeeebbc8a&page=0_0#)
 
 <br>
+<p align="center"> ERD </p>
+<p align="center"><img src="./docs/ERD.png" width = 80%></p>
+
+<br>
 
 ## *Table of Contents*
 
