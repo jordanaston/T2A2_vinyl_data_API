@@ -158,6 +158,60 @@ Since an ORM provides a high-level interface to the database, it can make code m
 
 ## **R7: Third Party Services**
 
+The foundation of this RESTful API is built in Flask, a web application framework designed for basic routing, request handling, and response generation. The framework offers a development server and a suite of high-level components that work together to create a powerful and scalable solution. Flask is a lightweight and flexible "micro" framework that enables developers to extend its functionality using various packages, ensuring the API remains fast and adaptable to changing requirements.
+
+The following are the third-party packages that have been used to build this project. The "requirements.txt" file contains a comprehensive list of all the dependencies and requirements needed for the project.
+
+**SQLAlchemy**
+
+SQLAlchemy is a popular Object-Relational Mapping (ORM) tool used in the development of Python-based applications. It allows developers to work with relational databases in a more Pythonic manner, by representing database tables as Python classes, and rows within those tables as instances of those classes. In the app, SQLAlchemy is used to manage the interactions with the database. It provides an abstraction layer between the Python code and the underlying database, allowing the focus to remain on the business logic of the application, rather than the details of how data is stored and retrieved. 
+
+*“SQLAlchemy as an ORM means it exposes a model-based API atop database tables so that you don't need to think about the database at all most of the times but to focus on your business logic.”* (enqueuezero.com, n.d.)
+
+By defining classes that represent the database tables, SQLAlchemy generates the SQL code needed to perform various operations, such as querying the database, inserting new records, and updating existing ones. It also provides support for database migrations, which can help to ensure the database schema stays in sync with changes made to the application over time.
+
+**Psycopg2**
+
+Psycopg2 is a PostgreSQL database adapter for Python that allows developers to interact with PostgreSQL databases using Python code. It provides a set of Python modules and methods that allow applications to connect to a PostgreSQL database, execute SQL queries, and retrieve results. 
+
+In the app, Psycopg2 is used to connect to the PostgreSQL database and perform CRUD (Create, Read, Update, Delete) operations on the database tables. It allows the Python code to interact with the database using SQL commands, such as SELECT, INSERT, UPDATE, and DELETE. 
+
+By using Psycopg2, the app can easily communicate with the PostgreSQL database and retrieve data from the various tables, which are Users, Collections, Artists, Records, and Tracks. 
+
+**Flask-Marshmallow**
+
+Flask-Marshmallow is a Flask extension that provides integration between Flask and Marshmallow, a popular Python library for object serialization and deserialization. It simplifies the process of converting Python objects to and from JSON data, which is a common format used in RESTful APIs. In the app, Flask-Marshmallow is used to serialize and deserialize data when communicating with the API endpoints. 
+
+*“Flask-Marshmallow is a thin integration layer for Flask (a Python web framework) and marshmallow (an object serialization/deserialization library) that adds additional features to marshmallow”* (flask-marshmallow.readthedocs.io, n.d.)
+
+It allows the Python code to easily convert the data from the database tables, into JSON format that can be returned by the API endpoints. By defining schema classes that map to the database tables, Flask-Marshmallow generates the JSON data that is returned by the API endpoints. This allows the API to provide a consistent and well-defined data format that can be consumed by other applications and services.
+
+**Python-Dotenv**
+
+Python-Dotenv is a Python library that allows developers to load environment variables from a .env file in the project directory. This library simplifies the process of managing environment variables by allowing developers to keep sensitive information separate from their code, and to easily switch between different environment configurations. 
+
+*“When a Python process is created, the available environment variables populate the os.environ object which acts like a Python dictionary.”* (www.doppler.com, n.d.)
+
+Python-Dotenv is used in conjunction with Flask's config object, which provides a way to manage application-wide configuration variables. The config object can be used to set default values for configuration variables, and to load values from environment variables or configuration files such as .env.
+
+**Flask-Bcrypt**
+
+Flask-Bcrypt is a package that provides password hashing and verification functionality for Flask applications. It is used to securely store and manage user passwords in the app's database. In the app, Flask-Bcrypt is used to encrypt and store user passwords when they create an account or update their password. When a user logs in, their password is verified by comparing the stored encrypted password with the hashed version of the password they entered during login.
+
+*“Password hashing is the process of turning a password into alphanumeric letters using specific algorithms. Some popular algorithms for password hashing include bcrypt and SHA.”* (Patel, 2022)
+
+Using Flask-Bcrypt to hash and verify passwords adds an extra layer of security to the app, making it more difficult for attackers to gain access to user accounts even if they manage to obtain the password hashes from the database.
+
+
+**Flask-JWT-Extended**
+
+Flask-JWT-Extended is a package that provides JSON Web Token (JWT) functionality for Flask applications. It is used to provide authentication and access control to the API endpoints. In the app, Flask-JWT-Extended is used to generate JWTs when users are successfully authenticated and include the token in subsequent requests to protected endpoints. 
+
+*“To access a jwt_required protected view you need to send in the JWT with each request. By default, this is done with an authorization header.”* (flask-jwt-extended.readthedocs.io, n.d.)
+
+The JWT contains encoded information about the user's identity and permissions. When a user makes a request to a protected endpoint, Flask-JWT-Extended checks the JWT for validity and authenticity. If the token is valid and has not expired, the user is granted access to the endpoint. Flask-JWT-Extended can also be used to control access to specific endpoints based on the user's permissions.
+
+
 ## **R6 / R9: Explanation of ERD and Database Relations Implementation**
 
 ## **R8: Project Models and their Relationships with each other**
