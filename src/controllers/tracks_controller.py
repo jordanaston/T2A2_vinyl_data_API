@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.tracks import Track
-from models.users import User
 from models.collections import Collection
 from models.records import Record
 from schemas.track_schema import track_schema, tracks_schema 

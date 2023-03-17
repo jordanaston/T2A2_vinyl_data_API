@@ -3,7 +3,6 @@ from main import db
 from models.artists import Artist
 from models.collections import Collection
 from models.records import Record
-from models.users import User
 from schemas.artist_schema import artist_schema, artists_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from controllers.auth_controller import admin_required

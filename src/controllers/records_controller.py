@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request, abort
 from main import db
 from models.records import Record
 from models.collections import Collection
-from models.users import User
 from models.artists import Artist
 from schemas.record_schema import record_schema, records_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
