@@ -112,12 +112,12 @@ To give an idea of how an ORM such as SQLAlchemy can be used to streamline queri
 
 The following is an example of SQL code that “gets” data about a record (vinyl record) from the database:
 
-```
+```python
 select * from "records" where id = 1;
 ```
 The code returns data bout the record (with id = 1) stored in the database. In this example, the data will include record_id, album_title, rpm and user_id. Whereas, a tool in ORM can perform the same query in a different format. 
 
-```
+```python
 Record.query.filter_by(id=id).first()
 ```
 This allows for a few things. You can define an object to this line of code and return the “jsonified” version of this object to the browser or a tool such as Postman or Insomnia. You can build a function around this object and create a route that includes a GET method and takes the record_id as a parameter so that when searching for the specific record in the browser (or Postman/ Insomnia) you can filter out the other records in the table in order to retrieve the one you are looking for.
@@ -299,7 +299,7 @@ To elborate further on the code:
 
 **User and Collection:**
 
-```
+```python
 collections = db.relationship(
     "Collection",
     backref="user",
@@ -311,7 +311,7 @@ This line establishes that one user can have multiple collections. The backref p
 
 In the Collection class, there are foreign key columns for both user_id and record_id:
 
-```
+```python
 user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
 These columns reference the primary keys of the User and Record tables, respectively, to create the associations between these models.
@@ -319,7 +319,7 @@ These columns reference the primary keys of the User and Record tables, respecti
 
 **Artist and Record:**
 
-```
+```python
 records = db.relationship(
     "Record",
     backref="artist",
@@ -331,14 +331,14 @@ This line establishes that one artist can have multiple records. The backref par
 
 In the Record class, the artist_id column is a foreign key referencing the 'artists.id' column:
 
-```
+```python
 artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
 This column creates the association between the Record and Artist models.
 ```
 
 **Record and Track:**
 
-```
+```python
 tracks = db.relationship(
     "Track",
     backref="record",
@@ -350,7 +350,7 @@ This line establishes that one record can have multiple tracks. The backref para
 
 In the Track class, the record_id column is a foreign key referencing the 'records.id' column:
 
-```
+```python
 record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
 ```
 
@@ -360,10 +360,10 @@ This column creates the association between the Track and Record models.
 
 As mentioned earlier, the Collection class has a foreign key column record_id, which references the primary key of the Record table:
 
-```
+```python
 record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
 ```
-```
+```python
 collections = db.relationship(
     "Collection",
     backref="record",
