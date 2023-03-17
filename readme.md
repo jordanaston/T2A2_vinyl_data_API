@@ -112,7 +112,7 @@ To give an idea of how an ORM such as SQLAlchemy can be used to streamline queri
 
 The following is an example of SQL code that “gets” data about a record (vinyl record) from the database:
 
-```python
+```postgresql
 select * from "records" where id = 1;
 ```
 The code returns data bout the record (with id = 1) stored in the database. In this example, the data will include record_id, album_title, rpm and user_id. Whereas, a tool in ORM can perform the same query in a different format. 
