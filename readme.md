@@ -15,6 +15,8 @@
 
 ## **Installation and Setup**
 
+<div style="page-break-after: always;"></div>
+
 ## **R1 / R2: Problem Identification and Justification**
 
 The problem that this app is trying to solve lies with people who have large collections of vinyl records. Whether they are vinyl collectors who simply love to listen to records at home, or vinyl DJs who cart around many crates full of records to use in their live performances. As you can imagine, digital music is already catalogued by applications such as iTunes, Spotify or Rekordbox and users of the apps can easily create playlists and group their albums/tracks in many different ways for listening and performing. Obviously, vinyl listeners don’t have this luxury and are forced to dig through their hefty collections to find what they’re looking for and manually manage/sort their records on the shelf and in their crates to create some sort of system of grouping and searching for records with similar attributes. 
@@ -33,6 +35,8 @@ The following images are screenshots taken from Reddit, showing the need for thi
 <p align="center"><img src="./docs/reddit-screenshot.png" width = 70%></p>
 <p align="center">(shoyei, 2019)</p>
 <br>
+
+<div style="page-break-after: always;"></div>
 
 <p align="center"> Reddit screenshot 2: </p>
 <p align="center"><img src="./docs/reddit-screenshot-2.png" width = 70%></p>
@@ -54,6 +58,8 @@ This API is designed to assist **vinyl collectors/listeners** in the following w
 - The user might be thinking of the name of a track they want to listen to but can’t remember which album it’s on or even if they own the record. 
 
 In summary, the objective of this project is to help users of any kind store and manage their vinyl record data and to create a way for anyone with large vinyl collections to search for specific attributes on their records. I imagine people running record stores would use some sort of software similar to this to track the records kept in their stores, but for the sake of the project, it's aimed at private users with large collections.
+
+<div style="page-break-after: always;"></div>
 
 ## **R3: Justification of the Database System**
 
@@ -92,11 +98,15 @@ ACID compliance. The term "ACID" represents four principles;  Atomicity, Consist
 
 *“The presence of four properties — atomicity, consistency, isolation and durability — can ensure that a database transaction is completed in a timely manner. When databases possess these properties, they are said to be ACID-compliant.”* (MariaDB, 2018)
 
+<div style="page-break-after: always;"></div>
+
 For example, if a user adds a new vinyl record to their collection, an ACID-compliant database will ensure that the data is stored completely and accurately, without any errors or inconsistencies. Similarly, if a user updates or deletes a record, an ACID-compliant database will ensure that the changes are processed correctly and that no data is lost or corrupted. This is crucial for the longevity of this application.
 
 As mentioned, other database systems such as MongoDB allow for extensive scalability whereas postgres has limited scalability options due to its reliance on predefined relationships between tables. This is ok here, because the relationships have been carefully considered before the production of the application and are planned to stay the way they are.
 
 In this particular application, the use of an RDMS provides several advantages over non-relational databases. Since the data being stored has consistent attributes, the more rigid schema of an RDMS helps ensure domain integrity. Although non-relational databases offer greater flexibility, this advantage is not critical in this case, as the overall structure of the data across all tables in the database is not likely to change significantly over time.
+
+<div style="page-break-after: always;"></div>
 
 ## **R4: Functionalities and Benefits of an ORM**
 
@@ -150,8 +160,11 @@ ORMs can help prevent SQL injection attacks, a common type of attack where malic
 
 Since an ORM provides a high-level interface to the database, it can make code more maintainable by reducing the amount of low-level SQL code that developers have to manage. This can make it easier to refactor the code as needed and make changes to the database schema.
 
+<div style="page-break-after: always;"></div>
 
 ## **R5: API Endpoints**
+
+<div style="page-break-after: always;"></div>
 
 ## **R7: Third Party Services**
 
@@ -174,6 +187,8 @@ Psycopg2 is a PostgreSQL database adapter for Python that allows developers to i
 In the app, Psycopg2 is used to connect to the PostgreSQL database and perform CRUD (Create, Read, Update, Delete) operations on the database tables. It allows the Python code to interact with the database using SQL commands, such as SELECT, INSERT, UPDATE, and DELETE. 
 
 By using Psycopg2, the app can easily communicate with the PostgreSQL database and retrieve data from the various tables, which are Users, Collections, Artists, Records, and Tracks. 
+
+<div style="page-break-after: always;"></div>
 
 **Flask-Marshmallow**
 
@@ -199,6 +214,7 @@ Flask-Bcrypt is a package that provides password hashing and verification functi
 
 Using Flask-Bcrypt to hash and verify passwords adds an extra layer of security to the app, making it more difficult for attackers to gain access to user accounts even if they manage to obtain the password hashes from the database.
 
+<div style="page-break-after: always;"></div>
 
 **Flask-JWT-Extended**
 
@@ -208,6 +224,7 @@ Flask-JWT-Extended is a package that provides JSON Web Token (JWT) functionality
 
 The JWT contains encoded information about the user's identity and permissions. When a user makes a request to a protected endpoint, Flask-JWT-Extended checks the JWT for validity and authenticity. If the token is valid and has not expired, the user is granted access to the endpoint. Flask-JWT-Extended can also be used to control access to specific endpoints based on the user's permissions.
 
+<div style="page-break-after: always;"></div>
 
 ## **R6 / R9: Explanation of ERD and Database Relations Implementation**
 
@@ -221,6 +238,8 @@ Presented below is an Entity Relationship Diagram (ERD) that illustrates the con
 **User**
 
 The “user” table retains details regarding users who intend to store information about their vinyl record collection in the database. The attributes contained in the table are user_id (allowing them to access the system) user_name (a self-selected username for the application), email (utilized for user identification), password (used for authentication purposes), and admin, which stores a boolean value that authenticates and authorizes users. The relationship between the user and record table is many to many, as many users can own many records and many records can belong to many users. Because of this a new entity titled “collection” was created to represent this relationship between user and records.
+
+<div style="page-break-after: always;"></div>
 
 **Collection**
 
@@ -244,7 +263,7 @@ As you can see from the ERD, not every attribute was made nullable. The ones tha
 - 1 to Many between the artist and record tables.
 - 1 to Many between the record and track tables.
 
-
+<div style="page-break-after: always;"></div>
 
 ## **R8: Project Models and their Relationships with each other**
 
@@ -278,6 +297,8 @@ id: Primary key column with auto-incrementing integer values.
 - **id:** Primary key column.
 - **artist_name:** Additional attribute.
 - **records:** One-to-many relationship with Record. When an artist is deleted, all associated records will also be deleted due to the "cascade" parameter.
+
+<div style="page-break-after: always;"></div>
 
 **Track class: Represents a track in a record (album)**
 
@@ -316,6 +337,8 @@ user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
 These columns reference the primary keys of the User and Record tables, respectively, to create the associations between these models.
 ```
+
+<div style="page-break-after: always;"></div>
 
 **Artist and Record:**
 
@@ -356,6 +379,8 @@ record_id = db.Column(db.Integer, db.ForeignKey('records.id'), nullable=False)
 
 This column creates the association between the Track and Record models.
 
+<div style="page-break-after: always;"></div>
+
 **Collection and Record:**
 
 As mentioned earlier, the Collection class has a foreign key column record_id, which references the primary key of the Record table:
@@ -373,7 +398,7 @@ collections = db.relationship(
 
 This line establishes that one record can be part of multiple collections. The backref parameter creates a reverse relationship, allowing you to access the Record model from the Collection model using the "record" attribute.
 
-
+<div style="page-break-after: always;"></div>
 
 ## **R10: Planning and Tracking of Tasks**
 
@@ -396,6 +421,8 @@ When a card is opened there are certain attributes that helped define how urgent
 <p align="center"> Card Priority Badges looked like this inside the card: </p>
 <p align="center"><img src="./docs/card-priority-screenshot.png" width = 60%></p>
 
+<div style="page-break-after: always;"></div>
+
 <p align="center"> Card Priority Badges looked like this outside the card: </p>
 <p align="center"><img src="./docs/priority-badge-screenshot.png" width = 40%></p>
 
@@ -416,6 +443,8 @@ Below are screenshots capturing the gradual completion of tasks within the cards
 <p align="center"><img src="./docs/trello-11.png" width = 80%></p>
 <p align="center"><img src="./docs/trello-12.png" width = 80%></p>
 <p align="center"><img src="./docs/trello-13.png" width = 80%></p>
+
+<div style="page-break-after: always;"></div>
 
 ## **References:**
 
