@@ -42,19 +42,14 @@ def get_user(id):
     return jsonify(result)
 
 
-# The POST route endpoint for creating a new user (admin required)
+# The POST routes endpoint for creating a new user (admin required)
 @users.route("/", methods=["POST"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def create_user():
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
-    # Create a new user
+    # Load user data from the request, create a new User object, and set its attributes
     user_fields = user_schema.load(request.json)
     new_user = User()
     new_user.user_name = user_fields["user_name"]
@@ -69,7 +64,7 @@ def create_user():
     return jsonify(user_schema.dump(new_user))
 
 
-# The PUT route endpoint granting users permission to update their user fields (except admin field). 
+# The PUT routes endpoint granting users permission to update their user fields (except admin field). 
 @users.route("/<int:id>/", methods=["PUT"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
@@ -78,15 +73,11 @@ def update_user(id):
     user_id = get_jwt_identity()
     # Find the user in the db based on their ID
     user = User.query.filter_by(id=user_id).first()
-    # Stop request if user invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Only allow users to update their own fields
     if user.id != id:
         return abort(401, description="You are not authorized to update this user")
-    # Create a new user
+    # Load user data from the request, and set its attributes
     user_fields = user_schema.load(request.json)
-    # Update the user details with the given values
     user.user_name = user_fields["user_name"]
     user.email = user_fields["email"]
     user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8")
@@ -98,18 +89,13 @@ def update_user(id):
     return jsonify(user_schema.dump(user))
 
 
-# The DELETE routes endpoint, allowing only admin to delete users
+# The DELETE routes endpoint; allowing only admin to delete users
 @users.route("/<int:id>/", methods=["DELETE"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def delete_user(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="You are not authorized to delete users")
     # Find the user in the database filtering by ID
     find_user = User.query.filter_by(id=id).first()
     # Return an error if the user doesn't exist

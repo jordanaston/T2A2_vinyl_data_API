@@ -11,7 +11,7 @@ from controllers.auth_controller import admin_required
 # Create a Flask Blueprint for the /tracks endpoint
 tracks = Blueprint('tracks', __name__, url_prefix="/tracks")
 
-# The GET routes endpoint returning list of all records in the database (admin authorized only)
+# The GET routes endpoint returning list of all tracks in the database (admin authorized only)
 @tracks.route("/", methods=["GET"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
@@ -26,7 +26,7 @@ def get_tracks():
     return jsonify(result)
 
 
-# The GET routes endpoint returning a single track in the database (admin authorized only)
+# The GET routes endpoint returning a single track in the database by id (admin authorized only)
 @tracks.route("/<int:id>/", methods=["GET"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
@@ -129,27 +129,26 @@ def search_tracks():
     return jsonify(result)  
 
 
-# The POST route endpoint, any logged in user can post a new track to the database
+# The POST routes endpoint; any logged in user can post a new track to the database as long as the record_id is related to the user_id
 @tracks.route("/", methods=["POST"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_track():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Load track data from the request, create a new Track object, and set its attributes
     track_fields = track_schema.load(request.json)
     new_track = Track()
     new_track.track_title = track_fields["track_title"]
     new_track.bpm = track_fields["bpm"]
     new_track.key = track_fields["key"]
-    # Check if the track_id exists in the Track table
+    # Check if the track_id exists in the Track table, return an error if not located
     if not Track.query.get(track_fields["record_id"]):
-        return abort(400, description="Invalid record_id")
+        return abort(400, description="Invalid record_id (not in database)")
+    # Check if the record_id is related to the user_id
+    if not Collection.query.filter_by(user_id=user_id, record_id=track_fields["record_id"]).first():
+        return abort(400, description="Unauthorized user (record_id not related)")
+    # Set the record_id attribute if authorized
     new_track.record_id = track_fields["record_id"]
     # Add to the database and commit
     db.session.add(new_track)
@@ -158,63 +157,53 @@ def create_track():
     return jsonify(track_schema.dump(new_track))
 
 
-# The PUT route endpoint, authorized users who created the track can update the track data keeping track id in tact 
+# The PUT routes endpoint; authorized users who created the track can update the track data keeping track id in tact 
 @tracks.route("/<int:id>/", methods=["PUT"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
 def update_tracks(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Get the track with the specified ID from the database
-    track = Track.query.filter_by(id=id).first()
-    # Return an error if the track doesn't exist
-    if not Track:
-        return abort(400, description= "Track does not exist")
     # Get the relationship between the track with the specified ID and the current user
     relationship = Record.query \
         .join(Track) \
         .join(Collection) \
         .filter(Track.id == id, Collection.user_id == user_id, Collection.record_id == Record.id) \
         .first()
-    # Stop the request if the user is unauthorized
+    # Stop the request if the user is unauthorized or the track does not exist
     if not relationship:
-        return abort(401, description="Unauthorized user")
+        return abort(401, description="Unauthorized user or track does not exist")
+    # Get the track with the specified ID from the database
+    track = Track.query.filter_by(id=id).first()
     # Load track data from the request, and update the attributes
     track_fields = track_schema.load(request.json)
     track.track_title = track_fields["track_title"]
     track.bpm = track_fields["bpm"]
+    track.key = track_fields["key"]
     # Commit to the database
     db.session.commit()
     # Return the track in the response
     return jsonify(track_schema.dump(track))
 
 
-# The DELETE route endpoint, users who are authorized can delete tracks they have created
+# The DELETE routes endpoint; users who are authorized can delete tracks they have created
 @tracks.route("/<int:id>/", methods=["DELETE"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
 def delete_track(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get the relationship between the track with the specified ID and the current user
     relationship = Record.query \
         .join(Track) \
         .join(Collection) \
         .filter(Track.id == id, Collection.user_id == user_id, Collection.record_id == Record.id) \
         .first()
-    # Stop the request if the user is unauthorized
+    # Stop the request if the user is unauthorized or the track does not exist
     if not relationship:
-        return abort(401, description="Unauthorized user")
-    # Find the track
+        return abort(401, description="Unauthorized user or the track does not exist")
+    # Find the track in the database by id
     track = Track.query.filter_by(id=id).first()
-    # Return an error if the track doesn't exist
-    if not Track:
-        return abort(400, description= "Track doesn't exist")
     # Delete the track from the database and commit
     db.session.delete(track)
     db.session.commit()

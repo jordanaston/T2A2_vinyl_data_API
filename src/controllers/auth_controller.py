@@ -40,6 +40,7 @@ def auth_register():
     # Return the user email and the access token
     return jsonify({"user":user.email, "token": access_token })
 
+
 # POST routes endpoint for logging in an existing user, generating an access token
 @auth.route("/login", methods=["POST"])
 def auth_login():

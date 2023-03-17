@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, abort
 from models.collections import Collection
-from models.users import User
 from schemas.collection_schema import collection_schema, collections_schema
 from flask_jwt_extended import jwt_required
 from controllers.auth_controller import admin_required
