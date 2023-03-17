@@ -4,21 +4,18 @@ from models.users import User
 from schemas.user_schema import user_schema, users_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import bcrypt
+from controllers.auth_controller import admin_required
 
 # Create a Flask Blueprint for the /users endpoint
 users = Blueprint('users', __name__, url_prefix="/users")
 
 # The GET route endpoint for getting list of all users (admin required)
 @users.route("/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_users():
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Get all the users from the database table
     user_list = User.query.all()
     # Convert the users from the database into a JSON format and store them in result
@@ -29,15 +26,11 @@ def get_users():
 
 # The GET routes endpoint for getting a single user (admin required)
 @users.route("/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_user(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Query database for user filtering by id
     user_in_db = User.query.filter_by(id=id).first()
     # Return an error if the user doesn't exist
@@ -51,6 +44,7 @@ def get_user(id):
 
 # The POST route endpoint for creating a new user (admin required)
 @users.route("/", methods=["POST"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_user():
     # Get the user id invoking get_jwt_identity
@@ -77,6 +71,7 @@ def create_user():
 
 # The PUT route endpoint granting users permission to update their user fields (except admin field). 
 @users.route("/<int:id>/", methods=["PUT"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def update_user(id):
     # Get the user id invoking get_jwt_identity
@@ -105,6 +100,7 @@ def update_user(id):
 
 # The DELETE routes endpoint, allowing only admin to delete users
 @users.route("/<int:id>/", methods=["DELETE"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def delete_user(id):
     # Get the user id invoking get_jwt_identity

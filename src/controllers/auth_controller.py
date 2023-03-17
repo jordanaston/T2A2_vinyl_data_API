@@ -5,10 +5,13 @@ from schemas.user_schema import user_schema
 from datetime import timedelta
 from main import bcrypt
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from functools import wraps
 
 # Create a Flask Blueprint for the /auth endpoint
 auth = Blueprint('auth', __name__, url_prefix="/auth")
 
+# POST routes endpoint for registering a new user who's email is not already registered
 @auth.route("/register", methods=["POST"])
 def auth_register():
     # The request data loaded in a user_schema 
@@ -37,7 +40,7 @@ def auth_register():
     # Return the user email and the access token
     return jsonify({"user":user.email, "token": access_token })
 
-
+# POST routes endpoint for logging in an existing user, generating an access token
 @auth.route("/login", methods=["POST"])
 def auth_login():
     # Get the user data from the request
@@ -55,3 +58,18 @@ def auth_login():
     return jsonify({"user":user.email, "token": access_token })
 
 
+# Utilize a decorator in other controllers for checking if a user is an admin to reduce repetitive code
+def admin_required(fn):
+     # Use the functools.wraps decorator to preserve the original function name and signature
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        # Get the user id invoking get_jwt_identity
+        user_id = get_jwt_identity()
+        # Retrieves a user object from the database based on the provided user ID
+        user = User.query.get(user_id)
+        # Stop the request if the user is not an admin
+        if not user.admin:
+            abort(401, description="Unauthorized user")
+        return fn(*args, **kwargs)
+    # Return the wrapped function
+    return wrapper

@@ -2,44 +2,34 @@ from flask import Blueprint, jsonify, abort
 from models.collections import Collection
 from models.users import User
 from schemas.collection_schema import collection_schema, collections_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from functools import wraps
+from flask_jwt_extended import jwt_required
+from controllers.auth_controller import admin_required
 
 # Create a Flask Blueprint for the /collections endpoint
 collections = Blueprint('collections', __name__, url_prefix="/collections")
 
-# Utilize a decorator for checking if a user is an admin to reduce repetitive code
-def admin_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        if not user.admin:
-            abort(401, description="Unauthorized user")
-        return fn(*args, **kwargs)
-    return wrapper
-
-
+# The GET routes endpoint for a all collections (admin required)
 @collections.route("/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
 @admin_required
 def get_collections():
+    # Query the database for all instances of the Collection model
     collection_list = Collection.query.all()
+    # Serialize the collection data into JSON format 
     result = collections_schema.dump(collection_list)
+    # Return the JSON data to the client as the HTTP response
     return jsonify(result)
 
 
 # The GET routes endpoint for a single collection (admin required)
 @collections.route("/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_collection(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Check if collection exists in database filtered by id
     collection = Collection.query.filter_by(id=id).first()
     # Return an error if the collection doesn't exist

@@ -6,21 +6,18 @@ from models.records import Record
 from models.users import User
 from schemas.artist_schema import artist_schema, artists_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from controllers.auth_controller import admin_required
 
 # Create a Flask Blueprint for the /artists endpoint
 artists = Blueprint('artists', __name__, url_prefix="/artists")
 
 # The GET routes endpoint returning list of all artists in the database (admin authorized only)
 @artists.route("/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_artists():
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Get all the artists from the database table
     artist_list = Artist.query.all()
     # Convert the artists from the database into a JSON format and store them in the result
@@ -31,15 +28,11 @@ def get_artists():
 
 # The GET routes endpoint returning a single artist in the database (admin authorized only)
 @artists.route("/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_artist(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Find the artist in the database by id
     artist = Artist.query.filter_by(id=id).first()
     # Stop the request if the artist does not exist
@@ -53,25 +46,20 @@ def get_artist(id):
 
 # The GET routes endpoint returning a list of all artists related to the user (user authorized only)
 @artists.route("/user/artists/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_artists():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get all the artists related to the user from the database table
     artist_list = Artist.query \
         .join(Record) \
         .join(Collection) \
         .filter(Record.artist_id==Artist.id, Collection.user_id==user_id) \
-        .distinct() \
         .all()
-    # Stop the request if the user is unauthorized
+    # Return an error if no artists related to the user in the database 
     if not artist_list:
-        return abort(401, description="Unauthorized user")
+        return abort(401, description="No artists related to this user")
     # Convert the artists from the database into a JSON format and store them in result
     results = artists_schema.dump(artist_list)
     # Return the data in JSON format
@@ -80,6 +68,7 @@ def get_user_artists():
 
 # The GET routes endpoint returning a specific artist created by a user
 @artists.route("/user/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_artist(id):
     # Get the user id invoking get_jwt_identity
@@ -111,6 +100,7 @@ def get_user_artist(id):
 
 # The GET routes endpoint returning any artist created by the user filtered by artist name
 @artists.route("/search", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def search_tracks():
     # Get the user id invoking get_jwt_identity
@@ -140,6 +130,7 @@ def search_tracks():
 
 # The POST route endpoint, any logged in user can post a new artist to the database
 @artists.route("/", methods=["POST"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_artist():
     # Get the user id invoking get_jwt_identity
@@ -162,6 +153,7 @@ def create_artist():
 
 # The PUT route endpoint, authorized users who created the artist can update the artist name keeping artist id in tact 
 @artists.route("/<int:id>/", methods=["PUT"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def update_artist(id):
     # Get the user id invoking get_jwt_identity
@@ -191,6 +183,7 @@ def update_artist(id):
 
 # The DELETE route endpoint, users who are authorized can delete artists they have created 
 @artists.route("/<int:id>/", methods=["DELETE"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def delete_artist(id):
     # Get the user id invoking get_jwt_identity

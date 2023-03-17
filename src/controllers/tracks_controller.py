@@ -6,21 +6,18 @@ from models.collections import Collection
 from models.records import Record
 from schemas.track_schema import track_schema, tracks_schema 
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from controllers.auth_controller import admin_required
 
 # Create a Flask Blueprint for the /tracks endpoint
 tracks = Blueprint('tracks', __name__, url_prefix="/tracks")
 
 # The GET routes endpoint returning list of all records in the database (admin authorized only)
 @tracks.route("/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_tracks():
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Get all the tracks from the database table
     track_list = Track.query.all()
     # Convert the tracks from the database into a JSON format and store them in result
@@ -31,15 +28,11 @@ def get_tracks():
 
 # The GET routes endpoint returning a single track in the database (admin authorized only)
 @tracks.route("/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_track(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Find the track in the database filtering by id
     track = Track.query.filter_by(id=id).first()
     # Stop the request if the track does not exist
@@ -53,28 +46,20 @@ def get_track(id):
 
 # The GET routes endpoint returning a list of all tracks related to the user (user authorized only)
 @tracks.route("/user/tracks/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    #  Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get all the tracks related to the user from the database table
     track_list = Track.query \
         .join(Record) \
         .join(Collection) \
         .filter(Track.record_id==Record.id, Collection.user_id==user_id) \
-        .distinct() \
         .all()
-    # Check if there are tracks related to the user
-    if len(track_list) == 0:
-        return abort(401, description="No tracks related to the user")
-    # Stop the request if the user is unauthorized
+    # Return an error if no tracks relate to the user
     if not track_list:
-        return abort(401, description="Unauthorized user")
+        return abort(401, description="No tracks related to this user")
     # Convert the track from the database into a JSON format and store them in result
     result = tracks_schema.dump(track_list)
     # Return the data in JSON format
@@ -83,6 +68,7 @@ def get_user_tracks():
 
 # The GET routes endpoint returning a specific track created by a user
 @tracks.route("/user/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_track(id):
     # Get the user id invoking get_jwt_identity
@@ -115,6 +101,7 @@ def get_user_track(id):
 # The GET routes endpoint returning any tracks created by the user with a specifc track_title, bpm or key
 # Remember when searching for the 'key' of a track with a sharp (#), replace "# " with "%23%20". EG: A# Major = A%23%20Major
 @tracks.route("/search", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def search_tracks():
     # Get the user id invoking get_jwt_identity
@@ -154,6 +141,7 @@ def search_tracks():
 
 # The POST route endpoint, any logged in user can post a new track to the database
 @tracks.route("/", methods=["POST"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_track():
     # Get the user id invoking get_jwt_identity
@@ -182,6 +170,7 @@ def create_track():
 
 # The PUT route endpoint, authorized users who created the track can update the track data keeping track id in tact 
 @tracks.route("/<int:id>/", methods=["PUT"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def update_tracks(id):
     # Get the user id invoking get_jwt_identity
@@ -212,6 +201,7 @@ def update_tracks(id):
 
 # The DELETE route endpoint, users who are authorized can delete tracks they have created
 @tracks.route("/<int:id>/", methods=["DELETE"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def delete_track(id):
     # Get the user id invoking get_jwt_identity

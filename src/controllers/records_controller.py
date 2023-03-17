@@ -6,21 +6,18 @@ from models.users import User
 from models.artists import Artist
 from schemas.record_schema import record_schema, records_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from controllers.auth_controller import admin_required
 
 # Create a Flask Blueprint for the /records endpoint
 records = Blueprint('records', __name__, url_prefix="/records")
 
 # The GET routes endpoint returning list of all records in the database (admin authorized only)
 @records.route("/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_records():
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Get all the records from the database table
     record_list = Record.query.all()
     # Convert the records from the database into a JSON format and store them in result
@@ -31,15 +28,11 @@ def get_records():
 
 # The GET routes endpoint returning a single record in the database (admin authorized only)
 @records.route("/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
+# Check whether the user has admin permissions to access the endpoint
+@admin_required
 def get_record(id):
-    # Get the user id invoking get_jwt_identity
-    user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is not an admin
-    if not user.admin:
-        return abort(401, description="Unauthorized user")
     # Find the record in the database by id
     record = Record.query.filter_by(id=id).first()
     # Stop the request if the record does not exist
@@ -53,24 +46,19 @@ def get_record(id):
 
 # The GET routes endpoint returning a list of all records related to the user (user authorized only)
 @records.route("/user/records/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_records():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get all the records related to the user from the database table
     record_list = Record.query \
         .join(Collection) \
         .filter(id==id, Collection.user_id==user_id) \
-        .distinct() \
         .all()
-    # Stop the request if the user is unauthorized
+    # Return an error if no records relate to the user in the datbase 
     if not record_list:
-        return abort(401, description="Unauthorized user")
+        return abort(401, description="No records related to this user")
     # Convert the records from the database into a JSON format and store them in result
     result = records_schema.dump(record_list)
     # Return the data in JSON format
@@ -79,6 +67,7 @@ def get_user_records():
 
 # The GET routes endpoint returning a specific record created by a user
 @records.route("/user/<int:id>/", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def get_user_record(id):
     # Get the user id invoking get_jwt_identity
@@ -109,6 +98,7 @@ def get_user_record(id):
 
 # The GET routes endpoint returning any records created by the user with a specifc album_title, rpm
 @records.route("/search", methods=["GET"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def search_tracks():
     # Get the user id invoking get_jwt_identity
@@ -143,6 +133,7 @@ def search_tracks():
 
 # The POST route endpoint, any logged in user can post a new record to the database
 @records.route("/", methods=["POST"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_record():
     # Get the user id invoking get_jwt_identity
@@ -170,6 +161,7 @@ def create_record():
 
 # The PUT route endpoint, authorized users who created the record can update the record data keeping record id in tact 
 @records.route("/<int:id>/", methods=["PUT"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def update_record(id):
     # Get the user id invoking get_jwt_identity
@@ -199,6 +191,7 @@ def update_record(id):
 
 # The DELETE route endpoint, users who are authorized can delete records they have created
 @records.route("/<int:id>/", methods=["DELETE"])
+# Require a valid JWT token to access the endpoint
 @jwt_required()
 def delete_record(id):
     # Get the user id invoking get_jwt_identity
