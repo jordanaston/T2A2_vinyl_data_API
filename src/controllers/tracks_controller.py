@@ -73,11 +73,6 @@ def get_user_tracks():
 def get_user_track(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get the track with the specified ID from the database
     track = Track.query.filter_by(id=id).first()
     # Return an error if the track doesn't exist
@@ -106,11 +101,6 @@ def get_user_track(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Create an empty list in case the query string is not valid
     tracks_list = []
     # Check if a "track_title" query parameter was included in the request

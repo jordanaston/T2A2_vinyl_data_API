@@ -72,11 +72,6 @@ def get_user_records():
 def get_user_record(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get the record with the specified ID from the database
     record = Record.query.filter_by(id=id).first()
     # Return an error if the record doesn't exist
@@ -103,11 +98,6 @@ def get_user_record(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Create an empty list in case the query string is not valid
     records_list = []
     # Check if a "album_title" query parameter was included in the request

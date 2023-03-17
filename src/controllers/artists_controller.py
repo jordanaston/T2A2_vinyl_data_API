@@ -73,11 +73,6 @@ def get_user_artists():
 def get_user_artist(id):
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Get the artist with the specified ID from the database
     artist = Artist.query.filter_by(id=id).first()
     # Return an error if the artist doesn't exist
@@ -105,25 +100,20 @@ def get_user_artist(id):
 def search_tracks():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Retrieves a user object from the database based on the provided user ID
-    user = User.query.get(user_id)
-    # Stop the request if the user is invalid
-    if not user:
-        return abort(401, description="Invalid user")
     # Retrieve the value of the 'artist_name' parameter from the request
     artist_name = request.args.get('artist_name')
     # Query the database to retrieve a list of artists whose name matches the 'artist_name' parameter and 
     # whose records are associated with a collection belonging to the specified 'user_id'
-    artists_list = Artist.query \
+    artist = Artist.query \
                 .join(Record) \
                 .join(Collection) \
                 .filter(Artist.artist_name == artist_name, Collection.user_id == user_id) \
                 .all()
     # Check if the artist searched for is in the user's collection, if not return a 400 error with a message.
-    if not artists_list:
+    if not artist:
         return abort(400, description= "Artist not in your collection")
     # Convert the tracks from the database into a JSON format and store them in result
-    result = artists_schema.dump(artists_list)
+    result = artists_schema.dump(artist)
     # Return the data in JSON format
     return jsonify(result) 
 
