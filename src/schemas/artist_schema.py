@@ -1,6 +1,6 @@
 from main import ma
 from marshmallow.validate import Length
-from marshmallow import pre_load, ValidationError
+from marshmallow import pre_load
 import html
 
 # Artist Schema created with Marshmallow, providing serialization needed for converting the data into JSON

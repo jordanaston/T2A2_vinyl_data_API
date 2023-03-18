@@ -123,29 +123,32 @@ def search_tracks():
 # in the the GET routes endpoint for searching an artist by name. The record also must not already exist in the database with identical attributes.
 # Collection table will be updated here as well.
 @records.route("/", methods=["POST"])
-# Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_record():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Load record data from the request, create a new Record object, and set its attributes
-    record_fields = record_schema.load(request.json)
+    # Safely access required field values from the record_fields dictionary, and return a 400 error if any are missing
+    try:
+        record_fields = record_schema.load(request.json)
+        album_title = record_fields["album_title"]
+        rpm = record_fields["rpm"]
+        artist_id = record_fields["artist_id"]
+    except KeyError:
+        return abort(400, description=f"KeyError: Missing data for required fields")
     # Check if a record with the same album title, rpm, and artist id already exists for the current user
-    if Record.query.filter_by(album_title=record_fields["album_title"],
-                           rpm=record_fields["rpm"],
-                           artist_id=record_fields["artist_id"]) \
-                .join(Collection) \
-                .filter_by(user_id=user_id) \
-                .first():
+    if Record.query.filter_by(album_title=album_title, rpm=rpm, artist_id=artist_id)\
+            .join(Collection)\
+            .filter_by(user_id=user_id)\
+            .first():
         return abort(400, description="Record already exists for this user")
     # Creates a new Record object and sets its attributes
     new_record = Record()
-    new_record.album_title = record_fields["album_title"]
-    new_record.rpm = record_fields["rpm"]
+    new_record.album_title = album_title
+    new_record.rpm = rpm
     # Check if the artist_id exists in the Artist table
-    if not Artist.query.get(record_fields["artist_id"]):
+    if not Artist.query.get(artist_id):
         return abort(400, description="Invalid artist_id")
-    new_record.artist_id = record_fields["artist_id"]
+    new_record.artist_id = artist_id
     # Add to the database and commit record before committing collection, so that the collection has the record_id to add 
     db.session.add(new_record)
     db.session.commit()
@@ -153,7 +156,6 @@ def create_record():
     new_collection = Collection()
     new_collection.user_id = user_id
     new_collection.record_id = new_record.id
-    # Add to the database and commit collection
     db.session.add(new_collection)
     db.session.commit()
     # Return the record in the response
@@ -179,8 +181,15 @@ def update_record(id):
     record = Record.query.filter_by(id=id).first()
     # Load record data from the request, and update the attributes
     record_fields = record_schema.load(request.json)
-    record.album_title = record_fields["album_title"]
-    record.rpm = record_fields["rpm"]
+    # Safely access required field values from the record_fields dictionary, and return a 400 error if any are missing
+    try:
+        album_title = record_fields["album_title"]
+        rpm = record_fields["rpm"]
+    except KeyError:
+        return abort(400, description=f"Missing data for required fields")
+    # Update the record's album_title and rpm attributes with the provided values
+    record.album_title = album_title
+    record.rpm = rpm
     # Commit to the database
     db.session.commit()
     # Return the record in the response

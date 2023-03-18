@@ -159,7 +159,7 @@ def update_artist(id):
     # Try to load and validate the artist data from the request
     try:
         artist_fields = artist_schema.load(request.json)
-    except ValidationError as err:
+    except ValidationError:
         # Return a 400 error with the validation error if any required fields are missing or invalid
         return abort(400, description=f"Validation error: Missing data for required field")
     # Update the "artist_name" attribute

@@ -136,31 +136,40 @@ def search_tracks():
 def create_track():
     # Get the user id invoking get_jwt_identity
     user_id = get_jwt_identity()
-    # Load track data from the request, create a new Track object, and set its attributes
+    # Load track data from the request
     track_fields = track_schema.load(request.json)
+    # Safely access required field values from the track_fields dictionary, and return a 400 error if any are missing
+    try:
+        record_id = track_fields["record_id"]
+        track_title = track_fields["track_title"]
+        bpm = track_fields["bpm"]
+        key = track_fields["key"]
+    except KeyError:
+        return abort(400, description=f"Missing data for required fields")
     # Check if the track with the same values already exists in the database
     existing_track = Track.query.filter_by(
-        record_id=track_fields["record_id"],
-        track_title=track_fields["track_title"],
-        bpm=track_fields["bpm"],
-        key=track_fields["key"],
+        record_id=record_id,
+        track_title=track_title,
+        bpm=bpm,
+        key=key,
     ).first()
+    # If the same track already exists, return an error
     if existing_track:
-        # If the same track already exists, return an error
         return abort(400, description="This track already exists.")
+    # Create a new Track instance and set its attributes with the values extracted from the request data.
     else:
         new_track = Track()
-        new_track.track_title = track_fields["track_title"]
-        new_track.bpm = track_fields["bpm"]
-        new_track.key = track_fields["key"]
+        new_track.track_title = track_title
+        new_track.bpm = bpm
+        new_track.key = key
         # Check if the track_id exists in the Track table, return an error if not located
-        if not Track.query.get(track_fields["record_id"]):
+        if not Track.query.get(record_id):
             return abort(400, description="Invalid record_id (not in database)")
-        # Check if the record_id is related to the user_id
-        if not Collection.query.filter_by(user_id=user_id, record_id=track_fields["record_id"]).first():
+        # Check if the record_id is related to the user_id, return an error if not related
+        if not Collection.query.filter_by(user_id=user_id, record_id=record_id).first():
             return abort(400, description="Unauthorized user (record_id not related)")
         # Set the record_id attribute if authorized
-        new_track.record_id = track_fields["record_id"]
+        new_track.record_id = record_id
         # Add to the database and commit
         db.session.add(new_track)
         db.session.commit()
@@ -186,11 +195,19 @@ def update_tracks(id):
         return abort(401, description="Unauthorized user or track does not exist")
     # Get the track with the specified ID from the database
     track = Track.query.filter_by(id=id).first()
-    # Load track data from the request, and update the attributes
+    # Load track data from the request
     track_fields = track_schema.load(request.json)
-    track.track_title = track_fields["track_title"]
-    track.bpm = track_fields["bpm"]
-    track.key = track_fields["key"]
+    # Try to extract the required fields and catch KeyError if any field is missing
+    try:
+        track_title = track_fields["track_title"]
+        bpm = track_fields["bpm"]
+        key = track_fields["key"]
+    except KeyError:
+        return abort(400, description="Missing data for required fields")
+    # Update the attributes
+    track.track_title = track_title
+    track.bpm = bpm
+    track.key = key
     # Commit to the database
     db.session.commit()
     # Return the track in the response

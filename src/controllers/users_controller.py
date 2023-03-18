@@ -51,16 +51,24 @@ def get_user(id):
 def create_user():
     # Load user data from the request
     user_fields = user_schema.load(request.json)
+    # Try to extract the required fields and catch KeyError if any field is missing
+    try:
+        user_name = user_fields["user_name"]
+        email = user_fields["email"]
+        password = user_fields["password"]
+        admin = user_fields["admin"]
+    except KeyError:
+        return abort(400, description="Missing data for required fields")
     # Check if a user with the same email already exists in the database
-    existing_user = User.query.filter_by(email=user_fields["email"]).first()
+    existing_user = User.query.filter_by(email=email).first()
     if existing_user:
         return abort(409, description="User with that email already exists")
     # Create a new User object, and set its attributes
     new_user = User()
-    new_user.user_name = user_fields["user_name"]
-    new_user.email = user_fields["email"]
-    new_user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8")
-    new_user.admin = user_fields["admin"]
+    new_user.user_name = user_name
+    new_user.email = email
+    new_user.password = bcrypt.generate_password_hash(password).decode("utf-8")
+    new_user.admin = admin
     # Add to the database and commit
     db.session.add(new_user)
     db.session.commit()
@@ -80,11 +88,19 @@ def update_user(id):
     # Only allow users to update their own fields
     if user.id != id:
         return abort(401, description="You are not authorized to update this user")
-    # Load user data from the request, and set its attributes
+    # Load user data from the request
     user_fields = user_schema.load(request.json)
-    user.user_name = user_fields["user_name"]
-    user.email = user_fields["email"]
-    user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8")
+    # Try to extract the required fields and catch KeyError if any field is missing
+    try:
+        user_name = user_fields["user_name"]
+        email = user_fields["email"]
+        password = user_fields["password"]
+    except KeyError:
+        return abort(400, description="Missing data for required fields")
+    # Set the user attributes
+    user.user_name = user_name
+    user.email = email
+    user.password = bcrypt.generate_password_hash(password).decode("utf-8")
     # User not allowed to set admin to True
     user.admin = False
     # Add to the database and commit
