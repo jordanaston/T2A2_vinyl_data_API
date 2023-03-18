@@ -1,6 +1,7 @@
 from main import ma
-from marshmallow.validate import Length
+from marshmallow.validate import Length, Email
 from models.users import User
+from marshmallow import fields
 
 # Defines a schema for the User model using the SQLAlchemyAutoSchema class.
 class UserSchema(ma.SQLAlchemyAutoSchema):
@@ -11,9 +12,14 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         # Fields to expose
         fields = ("id", "user_name", "email", "password", "admin")
-    # Set the password's length to a minimum of 6 characters
-    password = ma.String(validate=Length(min=6))
-
+    # Add length validation for user_name (assuming minimum 3 and maximum 50 characters)
+    user_name = ma.String(validate=Length(min=3, max=50))
+    # Add email format validation
+    email = ma.String(validate=Email())
+    # Set the password's length to a minimum of 6 characters and maximum of 50
+    password = ma.String(validate=Length(min=6, max=50))
+    # Add boolean validation for the admin field
+    admin = fields.Boolean()
 # Single user schema, when one user needs to be retrieved
 user_schema = UserSchema()
 # Multiple users schema, when many users needs to be retrieved
