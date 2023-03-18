@@ -1,7 +1,8 @@
 from main import ma
 from marshmallow.validate import Length, Email
 from models.users import User
-from marshmallow import fields
+from marshmallow import fields, pre_load
+import html
 
 # Defines a schema for the User model using the SQLAlchemyAutoSchema class.
 class UserSchema(ma.SQLAlchemyAutoSchema):
@@ -20,6 +21,16 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     password = ma.String(validate=Length(min=6, max=50))
     # Add boolean validation for the admin field
     admin = fields.Boolean()
+
+     # Sanitization function to escape special characters in user_name and email
+    @pre_load
+    def sanitize_fields(self, data, **kwargs):
+        if "user_name" in data:
+            data["user_name"] = html.escape(data["user_name"].strip())
+        if "email" in data:
+            data["email"] = html.escape(data["email"].strip())
+        return data
+    
 # Single user schema, when one user needs to be retrieved
 user_schema = UserSchema()
 # Multiple users schema, when many users needs to be retrieved
