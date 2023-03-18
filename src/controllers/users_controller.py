@@ -49,13 +49,17 @@ def get_user(id):
 # Check whether the user has admin permissions to access the endpoint
 @admin_required
 def create_user():
-    # Load user data from the request, create a new User object, and set its attributes
+    # Load user data from the request
     user_fields = user_schema.load(request.json)
+    # Check if a user with the same email already exists in the database
+    existing_user = User.query.filter_by(email=user_fields["email"]).first()
+    if existing_user:
+        return abort(409, description="User with that email already exists")
+    # Create a new User object, and set its attributes
     new_user = User()
     new_user.user_name = user_fields["user_name"]
     new_user.email = user_fields["email"]
-    new_user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8"),
-    # Admin chooses if admin=true or false
+    new_user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8")
     new_user.admin = user_fields["admin"]
     # Add to the database and commit
     db.session.add(new_user)

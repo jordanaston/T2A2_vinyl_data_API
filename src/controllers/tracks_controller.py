@@ -129,6 +129,7 @@ def search_tracks():
 
 
 # The POST routes endpoint; any logged in user can post a new track to the database as long as the record_id is related to the user_id
+# and the track does not already exist in the database 
 @tracks.route("/", methods=["POST"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
@@ -137,23 +138,34 @@ def create_track():
     user_id = get_jwt_identity()
     # Load track data from the request, create a new Track object, and set its attributes
     track_fields = track_schema.load(request.json)
-    new_track = Track()
-    new_track.track_title = track_fields["track_title"]
-    new_track.bpm = track_fields["bpm"]
-    new_track.key = track_fields["key"]
-    # Check if the track_id exists in the Track table, return an error if not located
-    if not Track.query.get(track_fields["record_id"]):
-        return abort(400, description="Invalid record_id (not in database)")
-    # Check if the record_id is related to the user_id
-    if not Collection.query.filter_by(user_id=user_id, record_id=track_fields["record_id"]).first():
-        return abort(400, description="Unauthorized user (record_id not related)")
-    # Set the record_id attribute if authorized
-    new_track.record_id = track_fields["record_id"]
-    # Add to the database and commit
-    db.session.add(new_track)
-    db.session.commit()
-    # Return the track in the response
-    return jsonify(track_schema.dump(new_track))
+    # Check if the track with the same values already exists in the database
+    existing_track = Track.query.filter_by(
+        record_id=track_fields["record_id"],
+        track_title=track_fields["track_title"],
+        bpm=track_fields["bpm"],
+        key=track_fields["key"],
+    ).first()
+    if existing_track:
+        # If the same track already exists, return an error
+        return abort(400, description="This track already exists.")
+    else:
+        new_track = Track()
+        new_track.track_title = track_fields["track_title"]
+        new_track.bpm = track_fields["bpm"]
+        new_track.key = track_fields["key"]
+        # Check if the track_id exists in the Track table, return an error if not located
+        if not Track.query.get(track_fields["record_id"]):
+            return abort(400, description="Invalid record_id (not in database)")
+        # Check if the record_id is related to the user_id
+        if not Collection.query.filter_by(user_id=user_id, record_id=track_fields["record_id"]).first():
+            return abort(400, description="Unauthorized user (record_id not related)")
+        # Set the record_id attribute if authorized
+        new_track.record_id = track_fields["record_id"]
+        # Add to the database and commit
+        db.session.add(new_track)
+        db.session.commit()
+        # Return the track in the response
+        return jsonify(track_schema.dump(new_track))
 
 
 # The PUT routes endpoint; authorized users who created the track can update the track data keeping track id in tact 

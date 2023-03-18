@@ -120,7 +120,8 @@ def search_tracks():
 
 
 # The POST routes endpoint; any logged in user can post a new record to the database as long as they have a valid artist id, which they can search for 
-# in the the GET routes endpoint for searching an artist by name. Collection table will be updated here as well.
+# in the the GET routes endpoint for searching an artist by name. The record also must not already exist in the database with identical attributes.
+# Collection table will be updated here as well.
 @records.route("/", methods=["POST"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
@@ -129,6 +130,15 @@ def create_record():
     user_id = get_jwt_identity()
     # Load record data from the request, create a new Record object, and set its attributes
     record_fields = record_schema.load(request.json)
+    # Check if a record with the same album title, rpm, and artist id already exists for the current user
+    if Record.query.filter_by(album_title=record_fields["album_title"],
+                           rpm=record_fields["rpm"],
+                           artist_id=record_fields["artist_id"]) \
+                .join(Collection) \
+                .filter_by(user_id=user_id) \
+                .first():
+        return abort(400, description="Record already exists for this user")
+    # Creates a new Record object and sets its attributes
     new_record = Record()
     new_record.album_title = record_fields["album_title"]
     new_record.rpm = record_fields["rpm"]

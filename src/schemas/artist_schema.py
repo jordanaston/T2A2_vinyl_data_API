@@ -1,6 +1,6 @@
 from main import ma
 from marshmallow.validate import Length
-from marshmallow import pre_load
+from marshmallow import pre_load, ValidationError
 import html
 
 # Artist Schema created with Marshmallow, providing serialization needed for converting the data into JSON
@@ -11,7 +11,7 @@ class ArtistSchema(ma.Schema):
         # Fields to expose
         fields = ("id", "artist_name")
     # Add length validation for artist_name 
-    artist_name = ma.String(validate=Length(min=1, max=100))
+    artist_name = ma.String(validate=Length(min=1, max=100), required=True)
 
     # Sanitization function to escape special characters in artist_name
     @pre_load

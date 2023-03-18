@@ -6,6 +6,7 @@ from models.records import Record
 from schemas.artist_schema import artist_schema, artists_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from controllers.auth_controller import admin_required
+from marshmallow import ValidationError
 
 # Create a Flask Blueprint for the /artists endpoint
 artists = Blueprint('artists', __name__, url_prefix="/artists")
@@ -110,15 +111,26 @@ def search_tracks():
     return jsonify(result) 
 
 
-# The POST routes endpoint; any logged in user can post a new artist to the database
+# The POST routes endpoint; any logged in user can post a new artist to the database if the artist doesn't already exist.
 @artists.route("/", methods=["POST"])
 # Require a valid JWT token to access the endpoint
 @jwt_required()
 def create_artist():
-    # Load artist data from the request, create a new Artist object, and set its attributes
-    artist_fields = artist_schema.load(request.json)
+    # Try to load and validate the artist data from the request
+    try:
+        artist_fields = artist_schema.load(request.json)
+    except ValidationError:
+        # Return a 400 error with the validation errors if any required fields are missing or invalid
+        return abort(400, description=f"Validation error: Missing data for required field")
+    # Extract the artist_name value from the artist_fields dictionary
+    artist_name = artist_fields["artist_name"]
+    # Check if an artist with the same name already exists in the database
+    existing_artist = Artist.query.filter_by(artist_name=artist_name).first()
+    if existing_artist:
+        return abort(400, description=f"An artist with that name already exists")
+    # Create a new instance of the Artist class
     new_artist = Artist()
-    new_artist.artist_name = artist_fields["artist_name"]
+    new_artist.artist_name = artist_name
     # Add to the database and commit
     db.session.add(new_artist)
     db.session.commit()
@@ -144,8 +156,13 @@ def update_artist(id):
         return abort(401, description="Unauthorized user or artist does not exist")
     # Get the artist with the specified ID from the database
     artist = Artist.query.filter_by(id=id).first()
-    # Load artist data from the request, and update the "artist_name" attribute
-    artist_fields = artist_schema.load(request.json)
+    # Try to load and validate the artist data from the request
+    try:
+        artist_fields = artist_schema.load(request.json)
+    except ValidationError as err:
+        # Return a 400 error with the validation error if any required fields are missing or invalid
+        return abort(400, description=f"Validation error: Missing data for required field")
+    # Update the "artist_name" attribute
     artist.artist_name = artist_fields["artist_name"]
     # Commit to the database
     db.session.commit()
