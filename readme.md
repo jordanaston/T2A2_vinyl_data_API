@@ -162,7 +162,496 @@ Since an ORM provides a high-level interface to the database, it can make code m
 
 <div style="page-break-after: always;"></div>
 
+- Arguments: 
+- Description: 
+- Authentication:
+- Headers-Authorizatrion: Bearer {Token} -
+- Request Body:
+- Request Response:
+
 ## **R5: API Endpoints**
+
+## **Auth Routes**
+
+<p align="center"> Auth Routes in Postman </p>
+<p align="center"><img src="./docs/auth-routes-postman.png" width = 30%></p>
+
+## **`/auth/login`**
+
+**Method: POST**
+
+- Arguments: None
+- Description: A route to login users/admin and receive a token to use for authentication and authorization. 
+- Authentication: None
+- Authorization: No Auth
+
+**Request Body:**
+
+admin:
+```
+{
+    "user_name": "admin_user",
+    "email": "admin@email.com",
+    "password": "password123",
+    "admin": "True"
+}
+```
+user_1:
+```
+{
+    "user_name": "user_1",
+    "email": "user1@email.com",
+    "password": "123456",
+    "admin": "False"
+}
+```
+user_2:
+```
+{
+    "user_name": "user_2",
+    "email": "user2@email.com",
+    "password": "123456",
+    "admin": "False"
+}
+```
+
+**Request Response:**
+
+admin:
+```
+{
+    "user": "admin@email.com",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODU3NCwianRpIjoiODg2ZmFkYjQtODc5OC00MTZkLWIwMzUtOGI0OGE3MTZhNTYwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE2NzkxOTg1NzQsImV4cCI6MTY3OTI4NDk3NH0.BDVYYZcuoviaL0QbMnmr7yw8M7KEYwkpwMI8Weeo_RU"
+}
+```
+user_1:
+```
+{
+    "user": "user1@email.com",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODU2MywianRpIjoiNDQ5MDJmZWMtYjYwMS00ZTExLWExY2YtOTM1NTMwYjBhOWM1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIiLCJuYmYiOjE2NzkxOTg1NjMsImV4cCI6MTY3OTI4NDk2M30.VwvzkxtRH17ssTAKlhROHrOboo4_R9IohVhQgF5Ug3o"
+}
+```
+user_2:
+```
+{
+    "user": "user2@email.com",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODUzMiwianRpIjoiYThkOTg4MTctZjY1NC00YTY4LWE4MDgtNjBlYWI0MzFlMGIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE2NzkxOTg1MzIsImV4cCI6MTY3OTI4NDkzMn0.VjuiG9LMQ-CZp2J77SPZfrJe8MPdaKFbZiX_TQqK-HA"
+}
+```
+<br>
+
+## **`/auth/register`**
+
+**Method: POST**
+
+- Arguments: None 
+- Description: Registers a new user in the database
+- Authentication: None
+- Authorization: No Auth
+
+**Request Body:**
+
+```
+{
+    "user_name": "user_3",
+    "email": "user3@email.com",
+    "password": "123456",
+    "admin": false
+}
+```
+
+**Request Response:**
+
+```
+{
+    "user": "user3@email.com",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5NzgzMSwianRpIjoiNmQ5NTQwNGUtZDdmNS00MTYzLTliMTEtMmM4NTUxY2NjMGYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE2NzkxOTc4MzEsImV4cCI6MTY3OTI4NDIzMX0.nE7t2EEbJGX9KLppNNzYgF9Fw56xVHextLwdquo33bk"
+}
+```
+
+## **User Routes**
+
+<p align="center"> User Routes in Postman </p>
+<p align="center"><img src="./docs/user-routes-postman.png" width = 30%></p>
+
+## **`/users/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that returns all users in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+```
+[
+    {
+        "id": 1,
+        "user_name": "admin_user",
+        "email": "admin@email.com",
+        "password": "$2b$12$9wqxeEbEt1tmRRhqQt16.ONIZ38370XzNYE7TsXb7zwU1qUmY6ZBC",
+        "admin": true
+    },
+    {
+        "id": 2,
+        "user_name": "user_1",
+        "email": "user1@email.com",
+        "password": "$2b$12$hCYX/w/k/c6X8YE5J2aAke/P3nEd8LL4ULY4olSSwGgrtoa1TYBZi",
+        "admin": false
+    },
+    {
+        "id": 3,
+        "user_name": "user_2",
+        "email": "user2@email.com",
+        "password": "$2b$12$xo93hpPvyerBd6vBtlNEQuDooE/5/uSfavA0SyfcIJx5hFs5FO0qi",
+        "admin": false
+    }
+]
+```
+
+<br>
+
+## **`/users/<int:id>/`**
+
+**Method: GET**
+
+- Arguments: The user_id (integer) being searched for
+- Description: A route that returns a single user in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/users/2
+
+```
+{
+    "id": 2,
+    "user_name": "user_1",
+    "email": "user1@email.com",
+    "password": "$2b$12$hCYX/w/k/c6X8YE5J2aAke/P3nEd8LL4ULY4olSSwGgrtoa1TYBZi",
+    "admin": false
+}
+```
+<br>
+
+## **`/users/`**
+
+**Method: POST**
+
+- Arguments: None
+- Description: A route that allows an admin user to create a new user
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+```
+{
+    "user_name": "user_4",
+    "email": "user4@email.com",
+    "password": "123456",
+    "admin": false
+}
+```
+
+**Request Response:**
+
+```
+{
+    "id": 4,
+    "user_name": "user_4",
+    "email": "user4@email.com",
+    "password": "$2b$12$HE6iOE8piNHoFVW8KBp9s.1sMd48Y4RS2TumGnlZVQggm77O4KTmW",
+    "admin": false
+}
+```
+<br>
+
+## **`/users/<int:id>/`**
+
+**Method: PUT**
+
+- Arguments: The user_id (integer) being searched for
+- Description: A route that allows a user to update self. (except admin field)
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+URL: 127.0.0.1:5000/users/2
+
+```
+{   
+    "user_name": "user_1_updated",
+    "email": "user1_updated@email.com",
+    "password": "123456"
+}
+```
+**Request Response:**
+
+```
+{
+    "id": 2,
+    "user_name": "user_1_updated",
+    "email": "user1_updated@email.com",
+    "password": "$2b$12$yeTShfa735LT9h5psbTLRe6zye1rEg4UOYYoffQFAnMptWhjOENvG",
+    "admin": false
+}
+```
+<br>
+
+## **`/users/<int:id>/`**
+
+**Method: DELETE**
+
+- Arguments: The user_id (integer) being searched for
+- Description: A route that allows an admin to delete a user. 
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/users/3
+
+```
+{
+    "id": 3,
+    "user_name": "user_2",
+    "email": "user2@email.com",
+    "password": "$2b$12$eHqFMqqW1PaIq7rMsKc6DewsuezGvDc6mnZYUCXQ0.UgD/YeBqKU2",
+    "admin": false
+}
+```
+
+## **Artist Routes**
+
+<p align="center"> Artist Routes in Postman </p>
+<p align="center"><img src="./docs/artist-routes-postman.png" width = 30%></p>
+
+## **`/artists/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that returns all artists in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+```
+[
+    {
+        "id": 1,
+        "artist_name": "Aphex Twin"
+    },
+    {
+        "id": 2,
+        "artist_name": "Chaos In The CBD"
+    },
+    {
+        "id": 3,
+        "artist_name": "Jimmy Whoo"
+    }
+]
+```
+
+## **`/artists/<int:id>/`**
+
+**Method: GET**
+
+- Arguments: The artist_id (integer) being searched for
+- Description: A route that returns a single artist in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/artists/1
+
+```
+{
+    "id": 1,
+    "artist_name": "Aphex Twin"
+}
+```
+
+## **`/artists/user/artists/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that returns all artists related to a specifc user in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+```
+[
+    {
+        "id": 2,
+        "artist_name": "Chaos In The CBD"
+    },
+    {
+        "id": 3,
+        "artist_name": "Jimmy Whoo"
+    }
+]
+```
+
+## **`/artists/user/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The artist_id (integer) being searched for 
+- Description: A route that returns all artists related to a specifc user in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/artists/user/1
+
+```
+{
+    "id": 1,
+    "artist_name": "Aphex Twin"
+}
+```
+
+## **`/artists/search?artist_name=<name_goes_here>`**
+
+**Method: GET**
+
+- Arguments: The name of the artist being searched for 
+- Description: A route that returns a single artist by name
+- Authentication: JWT Required
+- Authorization: Bearer Token (any user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
+
+```
+{
+    "id": 1,
+    "artist_name": "Aphex Twin"
+}
+```
+
+## **`/artists/`**
+
+**Method: POST**
+
+- Arguments: None
+- Description: A route that allows any user to create a new artist in the databse
+- Authentication: JWT Required
+- Authorization: Bearer Token (any user)
+
+**Request Body:**
+```
+{   
+    "artist_name": "new_artist"
+}
+```
+
+**Request Response:**
+
+```
+{
+    "id": 4,
+    "artist_name": "new_artist"
+}
+```
+
+<br>
+
+## **`/artists/<int:id>`**
+
+**Method: PUT**
+
+- Arguments: The artist_id (integer) being searched for
+- Description: A route that allows a user to update an artist that is related to the user in the databse
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+```
+{   
+    "artist_name": "Aphex Twin (updated)"
+}
+```
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/artists/1
+
+```
+{
+    "id": 1,
+    "artist_name": "Aphex Twin (updated)"
+}
+```
+
+<br>
+
+## **`/artists/<int:id>`**
+
+**Method: PUT**
+
+- Arguments: The artist_id (integer) being searched for
+- Description: A route that allows a user to delete an artist that is related to the user in the databse
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/artists/2
+
+```
+{
+    "id": 2,
+    "artist_name": "Chaos In The CBD"
+}
+```
 
 <div style="page-break-after: always;"></div>
 
