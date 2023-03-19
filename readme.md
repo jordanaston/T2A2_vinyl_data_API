@@ -9,11 +9,57 @@
 
 <br>
 
-## *Table of Contents*
-
-<br>
-
 ## **Installation and Setup**
+
+- Create a folder locally to store the API. 
+- Clone or download the repository from Github.
+
+Connect to a PostgreSQL database from the Flask application. Run the PostgreSQL prompt in the terminal:
+```postgresql
+psql
+```
+
+Create the database:
+```postgresql
+CREATE DATABASE vinyl_data_api_db;
+```
+
+Connect to the database:
+```postgresql
+\c vinyl_data_api_db;
+```
+
+Create a user and set a passsword:
+```postgresql
+CREATE USER db_dev WITH PASSWORD '123456';
+```
+
+Grant user priviliges:
+```postgresql
+GRANT ALL PRIVILEGES ON DATABASE vinyl_data_api_db TO db_dev;
+```
+<div style="page-break-after: always;"></div>
+
+Open another WSL command line and run the following commands:
+
+cd into the src folder inside the project folder and activate the virtual environment:
+```
+source venv/bin/activate
+```
+
+Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+Create and seed the database then run the Flask application with the following cli commands:
+```
+flask db create
+flask db seed
+flask run
+```
+
+Search 127.0.0.1:5000/ in the browser or Postman/ Insomnia. Refer to *API Endpoints* documentation to make requests.
 
 <div style="page-break-after: always;"></div>
 
@@ -162,13 +208,6 @@ Since an ORM provides a high-level interface to the database, it can make code m
 
 <div style="page-break-after: always;"></div>
 
-- Arguments: 
-- Description: 
-- Authentication:
-- Headers-Authorizatrion: Bearer {Token} -
-- Request Body:
-- Request Response:
-
 ## **R5: API Endpoints**
 
 ## **Auth Routes**
@@ -205,6 +244,8 @@ user_1:
     "admin": "False"
 }
 ```
+<div style="page-break-after: always;"></div>
+
 user_2:
 ```json
 {
@@ -238,7 +279,8 @@ user_2:
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODUzMiwianRpIjoiYThkOTg4MTctZjY1NC00YTY4LWE4MDgtNjBlYWI0MzFlMGIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE2NzkxOTg1MzIsImV4cCI6MTY3OTI4NDkzMn0.VjuiG9LMQ-CZp2J77SPZfrJe8MPdaKFbZiX_TQqK-HA"
 }
 ```
-<br>
+
+<div style="page-break-after: always;"></div>
 
 ## **`/auth/register`**
 
@@ -269,6 +311,8 @@ user_2:
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **User Routes**
 
 <p align="center"> User Routes in Postman </p>
@@ -282,6 +326,8 @@ user_2:
 - Description: A route that returns all users in the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (admin)
+
+<div style="page-break-after: always;"></div>
 
 **Request Body:**
 
@@ -315,7 +361,7 @@ None
 ]
 ```
 
-<br>
+<div style="page-break-after: always;"></div>
 
 ## **`/users/<int:id>/`**
 
@@ -364,6 +410,8 @@ URL: 127.0.0.1:5000/users/2
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 **Request Response:**
 
 ```json
@@ -375,7 +423,8 @@ URL: 127.0.0.1:5000/users/2
     "admin": false
 }
 ```
-<br>
+
+<div style="page-break-after: always;"></div>
 
 ## **`/users/<int:id>/`**
 
@@ -408,7 +457,8 @@ URL: 127.0.0.1:5000/users/2
     "admin": false
 }
 ```
-<br>
+
+<div style="page-break-after: always;"></div>
 
 ## **`/users/<int:id>/`**
 
@@ -436,6 +486,8 @@ URL: 127.0.0.1:5000/users/3
     "admin": false
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **Artist Routes**
 
@@ -472,6 +524,8 @@ None
     }
 ]
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/artists/<int:id>/`**
 
@@ -525,6 +579,8 @@ None
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/artists/user/<int:id>`**
 
 **Method: GET**
@@ -573,6 +629,8 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/artists/`**
 
 **Method: POST**
@@ -616,6 +674,8 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 **Request Response:**
 
 URL: 127.0.0.1:5000/artists/1
@@ -626,8 +686,6 @@ URL: 127.0.0.1:5000/artists/1
     "artist_name": "Aphex Twin (updated)"
 }
 ```
-
-<br>
 
 ## **`/artists/<int:id>`**
 
@@ -653,7 +711,7 @@ URL: 127.0.0.1:5000/artists/2
 }
 ```
 
-<br>
+<div style="page-break-after: always;"></div>
 
 ## **Record Routes**
 
@@ -668,6 +726,8 @@ URL: 127.0.0.1:5000/artists/2
 - Description: A route that allows an admin to get all records from the datbase
 - Authentication: JWT Required
 - Authorization: Bearer Token (admin)
+
+<div style="page-break-after: always;"></div>
 
 **Request Body:**
 
@@ -707,6 +767,8 @@ None
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/records/<int:id>`**
 
 **Method: GET**
@@ -735,6 +797,8 @@ URL: 127.0.0.1:5000/records/3
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/records/user/records/`**
 
@@ -776,6 +840,8 @@ For user_2:
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/records/user/<int:id>`**
 
 **Method: GET**
@@ -804,6 +870,8 @@ URL: 127.0.0.1:5000/records/user/1
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/records/search?album_title=<attribute_goes_here>`**
 ## **`/records/search?rpm=<attribute_goes_here>`**
@@ -845,6 +913,7 @@ URL: 127.0.0.1:5000/records/search?rpm=45
     }
 ]
 ```
+<div style="page-break-after: always;"></div>
 
 ## **`/records/`**
 
@@ -878,6 +947,7 @@ URL: 127.0.0.1:5000/records/search?rpm=45
     }
 }
 ```
+<div style="page-break-after: always;"></div>
 
 ## **`/records/<int:id>`**
 
@@ -912,6 +982,7 @@ URL: 127.0.0.1:5000/records/1
     }
 }
 ```
+<div style="page-break-after: always;"></div>
 
 ## **`/records/<int:id>`**
 
@@ -942,7 +1013,7 @@ URL: 127.0.0.1:5000/records/1
 }
 ```
 
-<br>
+<div style="page-break-after: always;"></div>
 
 ## **Track Routes**
 
@@ -1169,6 +1240,8 @@ None
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/tracks/<int:id>`**
 
 **Method: GET**
@@ -1195,6 +1268,8 @@ None
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/tracks/user/tracks/`**
 
@@ -1298,6 +1373,8 @@ For user_1:
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/tracks/user/<int:id>`**
 
 **Method: GET**
@@ -1327,6 +1404,8 @@ URL: 127.0.0.1:5000/tracks/user/1
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/tracks/search?track_title=<attribute_goes_here>`**
 ## **`/tracks/search?bpm=<attribute_goes_here>`**
@@ -1376,6 +1455,8 @@ For user_1:
 ]
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/tracks/`**
 
 **Method: POST**
@@ -1412,6 +1493,8 @@ For user_1:
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/tracks/<int:id>`**
 
@@ -1451,6 +1534,8 @@ For user_1:
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## **`/tracks/<int:id>`**
 
 **Method: DELETE**
@@ -1483,7 +1568,7 @@ For user_1:
 }
 ```
 
-<br>
+<div style="page-break-after: always;"></div>
 
 ## **Collection Routes**
 
@@ -1524,6 +1609,8 @@ None
     }
 ]
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## **`/collections/<int:id>`**
 
@@ -1830,6 +1917,9 @@ Below are screenshots capturing the gradual completion of tasks within the cards
 <p align="center"><img src="./docs/trello-11.png" width = 80%></p>
 <p align="center"><img src="./docs/trello-12.png" width = 80%></p>
 <p align="center"><img src="./docs/trello-13.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-14.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-15.png" width = 80%></p>
+<p align="center"><img src="./docs/trello-16.png" width = 80%></p>
 
 <div style="page-break-after: always;"></div>
 
