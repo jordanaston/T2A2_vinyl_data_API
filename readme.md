@@ -42,7 +42,10 @@ GRANT ALL PRIVILEGES ON DATABASE vinyl_data_api_db TO db_dev;
 
 Open another WSL command line and run the following commands:
 
-cd into the src folder inside the project folder and activate the virtual environment:
+cd into the src folder inside the project folder and create/ activate the virtual environment:
+```
+virtualenv venv
+```
 ```
 source venv/bin/activate
 ```
@@ -50,6 +53,12 @@ source venv/bin/activate
 Install dependencies:
 ```
 pip install -r requirements.txt
+```
+
+Create a .env file at the root of the project with the following contents:
+```
+DATABASE_URL="postgresql+psycopg2://db_dev:123456@localhost:5432/vinyl_data_api_db"
+SECRET_KEY="Backend best end"
 ```
 
 Create and seed the database then run the Flask application with the following cli commands:
