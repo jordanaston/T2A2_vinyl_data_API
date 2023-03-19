@@ -188,7 +188,7 @@ Since an ORM provides a high-level interface to the database, it can make code m
 **Request Body:**
 
 admin:
-```
+```json
 {
     "user_name": "admin_user",
     "email": "admin@email.com",
@@ -197,7 +197,7 @@ admin:
 }
 ```
 user_1:
-```
+```json
 {
     "user_name": "user_1",
     "email": "user1@email.com",
@@ -206,7 +206,7 @@ user_1:
 }
 ```
 user_2:
-```
+```json
 {
     "user_name": "user_2",
     "email": "user2@email.com",
@@ -218,21 +218,21 @@ user_2:
 **Request Response:**
 
 admin:
-```
+```json
 {
     "user": "admin@email.com",
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODU3NCwianRpIjoiODg2ZmFkYjQtODc5OC00MTZkLWIwMzUtOGI0OGE3MTZhNTYwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE2NzkxOTg1NzQsImV4cCI6MTY3OTI4NDk3NH0.BDVYYZcuoviaL0QbMnmr7yw8M7KEYwkpwMI8Weeo_RU"
 }
 ```
 user_1:
-```
+```json
 {
     "user": "user1@email.com",
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODU2MywianRpIjoiNDQ5MDJmZWMtYjYwMS00ZTExLWExY2YtOTM1NTMwYjBhOWM1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIiLCJuYmYiOjE2NzkxOTg1NjMsImV4cCI6MTY3OTI4NDk2M30.VwvzkxtRH17ssTAKlhROHrOboo4_R9IohVhQgF5Ug3o"
 }
 ```
 user_2:
-```
+```json
 {
     "user": "user2@email.com",
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5ODUzMiwianRpIjoiYThkOTg4MTctZjY1NC00YTY4LWE4MDgtNjBlYWI0MzFlMGIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE2NzkxOTg1MzIsImV4cCI6MTY3OTI4NDkzMn0.VjuiG9LMQ-CZp2J77SPZfrJe8MPdaKFbZiX_TQqK-HA"
@@ -251,7 +251,7 @@ user_2:
 
 **Request Body:**
 
-```
+```json
 {
     "user_name": "user_3",
     "email": "user3@email.com",
@@ -262,7 +262,7 @@ user_2:
 
 **Request Response:**
 
-```
+```json
 {
     "user": "user3@email.com",
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTE5NzgzMSwianRpIjoiNmQ5NTQwNGUtZDdmNS00MTYzLTliMTEtMmM4NTUxY2NjMGYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE2NzkxOTc4MzEsImV4cCI6MTY3OTI4NDIzMX0.nE7t2EEbJGX9KLppNNzYgF9Fw56xVHextLwdquo33bk"
@@ -289,7 +289,7 @@ None
 
 **Request Response:**
 
-```
+```json
 [
     {
         "id": 1,
@@ -334,7 +334,7 @@ None
 
 URL: 127.0.0.1:5000/users/2
 
-```
+```json
 {
     "id": 2,
     "user_name": "user_1",
@@ -355,7 +355,7 @@ URL: 127.0.0.1:5000/users/2
 - Authorization: Bearer Token (admin)
 
 **Request Body:**
-```
+```json
 {
     "user_name": "user_4",
     "email": "user4@email.com",
@@ -366,7 +366,7 @@ URL: 127.0.0.1:5000/users/2
 
 **Request Response:**
 
-```
+```json
 {
     "id": 4,
     "user_name": "user_4",
@@ -390,7 +390,7 @@ URL: 127.0.0.1:5000/users/2
 
 URL: 127.0.0.1:5000/users/2
 
-```
+```json
 {   
     "user_name": "user_1_updated",
     "email": "user1_updated@email.com",
@@ -399,7 +399,7 @@ URL: 127.0.0.1:5000/users/2
 ```
 **Request Response:**
 
-```
+```json
 {
     "id": 2,
     "user_name": "user_1_updated",
@@ -427,7 +427,7 @@ None
 
 URL: 127.0.0.1:5000/users/3
 
-```
+```json
 {
     "id": 3,
     "user_name": "user_2",
@@ -456,7 +456,7 @@ URL: 127.0.0.1:5000/users/3
 None
 
 **Request Response:**
-```
+```json
 [
     {
         "id": 1,
@@ -490,7 +490,7 @@ None
 
 URL: 127.0.0.1:5000/artists/1
 
-```
+```json
 {
     "id": 1,
     "artist_name": "Aphex Twin"
@@ -512,7 +512,7 @@ None
 
 **Request Response:**
 
-```
+```json
 [
     {
         "id": 2,
@@ -542,7 +542,7 @@ None
 
 URL: 127.0.0.1:5000/artists/user/1
 
-```
+```json
 {
     "id": 1,
     "artist_name": "Aphex Twin"
@@ -566,7 +566,7 @@ None
 
 URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 
-```
+```json
 {
     "id": 1,
     "artist_name": "Aphex Twin"
@@ -583,7 +583,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 - Authorization: Bearer Token (any user)
 
 **Request Body:**
-```
+```json
 {   
     "artist_name": "new_artist"
 }
@@ -591,7 +591,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 
 **Request Response:**
 
-```
+```json
 {
     "id": 4,
     "artist_name": "new_artist"
@@ -610,7 +610,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 - Authorization: Bearer Token (user)
 
 **Request Body:**
-```
+```json
 {   
     "artist_name": "Aphex Twin (updated)"
 }
@@ -620,7 +620,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 
 URL: 127.0.0.1:5000/artists/1
 
-```
+```json
 {
     "id": 1,
     "artist_name": "Aphex Twin (updated)"
@@ -631,7 +631,7 @@ URL: 127.0.0.1:5000/artists/1
 
 ## **`/artists/<int:id>`**
 
-**Method: PUT**
+**Method: DELETE**
 
 - Arguments: The artist_id (integer) being searched for
 - Description: A route that allows a user to delete an artist that is related to the user in the databse
@@ -646,11 +646,909 @@ None
 
 URL: 127.0.0.1:5000/artists/2
 
-```
+```json
 {
     "id": 2,
     "artist_name": "Chaos In The CBD"
 }
+```
+
+<br>
+
+## **Record Routes**
+
+<p align="center"> Record Routes in Postman </p>
+<p align="center"><img src="./docs/record-routes-postman.png" width = 30%></p>
+
+## **`/records/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that allows an admin to get all records from the datbase
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+```json
+[
+    {
+        "id": 1,
+        "album_title": "Selected Ambient Works 85-92",
+        "rpm": 33,
+        "artist_id": 1,
+        "artist": {
+            "artist_name": "Aphex Twin"
+        }
+    },
+    {
+        "id": 2,
+        "album_title": "Intimate Fantasy - EP",
+        "rpm": 45,
+        "artist_id": 2,
+        "artist": {
+            "artist_name": "Chaos In The CBD"
+        }
+    },
+    {
+        "id": 3,
+        "album_title": "Motel Music Part 3",
+        "rpm": 45,
+        "artist_id": 3,
+        "artist": {
+            "artist_name": "Jimmy Whoo"
+        }
+    }
+]
+```
+
+## **`/records/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The record_id (integer) being searched for
+- Description: A route that allows an authenticated user to get a single record from the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/records/3
+
+```json
+{
+    "id": 3,
+    "album_title": "Motel Music Part 3",
+    "rpm": 45,
+    "artist_id": 3,
+    "artist": {
+        "artist_name": "Jimmy Whoo"
+    }
+}
+```
+
+## **`/records/user/records/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that allows an authenticated user to get all records related to the user
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+For user_2:
+
+```json
+[
+    {
+        "id": 2,
+        "album_title": "Intimate Fantasy - EP",
+        "rpm": 45,
+        "artist_id": 2,
+        "artist": {
+            "artist_name": "Chaos In The CBD"
+        }
+    },
+    {
+        "id": 3,
+        "album_title": "Motel Music Part 3",
+        "rpm": 45,
+        "artist_id": 3,
+        "artist": {
+            "artist_name": "Jimmy Whoo"
+        }
+    }
+]
+```
+
+## **`/records/user/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The record_id (integer) being searched for
+- Description: A route that allows an authenticated user to get a specifc record related to the user
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/records/user/1
+
+```json
+{
+    "id": 1,
+    "album_title": "Selected Ambient Works 85-92",
+    "rpm": 33,
+    "artist_id": 1,
+    "artist": {
+        "artist_name": "Aphex Twin"
+    }
+}
+```
+
+## **`/records/search?album_title=<attribute_goes_here>`**
+## **`/records/search?rpm=<attribute_goes_here>`**
+
+**Method: GET**
+
+- Arguments: album_title or rpm
+- Description: A route that allows a user to search up a records related to the user with specific attributes
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/records/search?rpm=45
+
+```json
+[
+    {
+        "id": 2,
+        "album_title": "Intimate Fantasy - EP",
+        "rpm": 45,
+        "artist_id": 2,
+        "artist": {
+            "artist_name": "Chaos In The CBD"
+        }
+    },
+    {
+        "id": 3,
+        "album_title": "Motel Music Part 3",
+        "rpm": 45,
+        "artist_id": 3,
+        "artist": {
+            "artist_name": "Jimmy Whoo"
+        }
+    }
+]
+```
+
+## **`/records/`**
+
+**Method: POST**
+
+- Arguments: None
+- Description: A route that allows any logged in user to post a new record to the database as long as they have a valid artist id, which they can search for in the the GET routes endpoint for searching an artist by name.
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+```json
+{
+    "album_title": "test_album",
+    "rpm": 45,
+    "artist_id": "1"
+}
+```
+
+**Request Response:**
+
+```json
+{
+    "id": 4,
+    "album_title": "test_album",
+    "rpm": 45,
+    "artist_id": 1,
+    "artist": {
+        "artist_name": "Aphex Twin"
+    }
+}
+```
+
+## **`/records/<int:id>`**
+
+**Method: PUT**
+
+- Arguments: The record_id (integer) being searched for
+- Description: A route that allows any logged in user to update a record in the database that belongs to the user
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+```json
+{
+    "album_title": "Selected Ambient Works 85-92 (updated)",
+    "rpm": "33"
+}
+```
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/records/1
+
+```json
+{
+    "id": 1,
+    "album_title": "Selected Ambient Works 85-92 (updated)",
+    "rpm": 33,
+    "artist_id": 1,
+    "artist": {
+        "artist_name": "Aphex Twin"
+    }
+}
+```
+
+## **`/records/<int:id>`**
+
+**Method: DELETE**
+
+- Arguments: The record_id (integer) being searched for
+- Description: A route that allows any logged in user to delete a record in the database that belongs to the user
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/records/1
+
+```json
+{
+    "id": 1,
+    "album_title": "Selected Ambient Works 85-92",
+    "rpm": 33,
+    "artist_id": 1,
+    "artist": {
+        "artist_name": "Aphex Twin"
+    }
+}
+```
+
+<br>
+
+## **Track Routes**
+
+<p align="center"> Track Routes in Postman </p>
+<p align="center"><img src="./docs/track-routes-postman.png" width = 30%></p>
+
+## **`/tracks/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that allows an admin to get all tracks from the datbase
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+```json
+[
+    {
+        "id": 1,
+        "track_title": "Xtal",
+        "bpm": 115,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 2,
+        "track_title": "Delphium",
+        "bpm": 135,
+        "key": "E Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 3,
+        "track_title": "Pulsewidth",
+        "bpm": 119,
+        "key": "C# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 4,
+        "track_title": "Ageispolis",
+        "bpm": 102,
+        "key": "F# Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 5,
+        "track_title": "Green Calx",
+        "bpm": 117,
+        "key": "G Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 6,
+        "track_title": "Heliosphan",
+        "bpm": 131,
+        "key": "C Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 7,
+        "track_title": "Ptolemy",
+        "bpm": 102,
+        "key": "E Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 8,
+        "track_title": "Actium",
+        "bpm": 135,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 9,
+        "track_title": "Club Miyako",
+        "bpm": 131,
+        "key": "C Minor",
+        "record_id": 2,
+        "record": {
+            "album_title": "Intimate Fantasy - EP"
+        }
+    },
+    {
+        "id": 10,
+        "track_title": "Intimate Fantasy",
+        "bpm": 79,
+        "key": "D Minor",
+        "record_id": 2,
+        "record": {
+            "album_title": "Intimate Fantasy - EP"
+        }
+    },
+    {
+        "id": 11,
+        "track_title": "Intro Ciel Rouge",
+        "bpm": 120,
+        "key": "E Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 12,
+        "track_title": "Devil In my Heart",
+        "bpm": 120,
+        "key": "G Major",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 13,
+        "track_title": "Ain't The Same",
+        "bpm": 135,
+        "key": "F# Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 14,
+        "track_title": "Bingo Bongo",
+        "bpm": 119,
+        "key": "C# Major",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 15,
+        "track_title": "Perfect World",
+        "bpm": 115,
+        "key": "D Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 16,
+        "track_title": "Get With Me",
+        "bpm": 131,
+        "key": "F Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 17,
+        "track_title": "Satin Dolls",
+        "bpm": 79,
+        "key": "F Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 18,
+        "track_title": "Aqua",
+        "bpm": 102,
+        "key": "Bb Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 19,
+        "track_title": "Waves",
+        "bpm": 117,
+        "key": "Bb Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    },
+    {
+        "id": 20,
+        "track_title": "Chapel Of Love",
+        "bpm": 120,
+        "key": "D Minor",
+        "record_id": 3,
+        "record": {
+            "album_title": "Motel Music Part 3"
+        }
+    }
+]
+```
+
+## **`/tracks/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The track_id (integer) being searched for
+- Description: A route that allows an admin to get a single track by id from the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+```json
+{
+    "id": 1,
+    "track_title": "Xtal",
+    "bpm": 115,
+    "key": "A# Major",
+    "record_id": 1,
+    "record": {
+        "album_title": "Selected Ambient Works 85-92"
+    }
+}
+```
+
+## **`/tracks/user/tracks/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that allows a user to get all tracks related to the user in the databse
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+For user_1:
+
+```json
+[
+    {
+        "id": 1,
+        "track_title": "Xtal",
+        "bpm": 115,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 2,
+        "track_title": "Delphium",
+        "bpm": 135,
+        "key": "E Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 3,
+        "track_title": "Pulsewidth",
+        "bpm": 119,
+        "key": "C# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 4,
+        "track_title": "Ageispolis",
+        "bpm": 102,
+        "key": "F# Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 5,
+        "track_title": "Green Calx",
+        "bpm": 117,
+        "key": "G Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 6,
+        "track_title": "Heliosphan",
+        "bpm": 131,
+        "key": "C Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 7,
+        "track_title": "Ptolemy",
+        "bpm": 102,
+        "key": "E Minor",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 8,
+        "track_title": "Actium",
+        "bpm": 135,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    }
+]
+```
+
+## **`/tracks/user/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The track_id (integer) being searched for 
+- Description: A route that allows a user to get a single track related to the user by track_id
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/tracks/user/1
+
+```json
+{
+    "id": 1,
+    "track_title": "Xtal",
+    "bpm": 115,
+    "key": "A# Major",
+    "record_id": 1,
+    "record": {
+        "album_title": "Selected Ambient Works 85-92"
+    }
+}
+```
+
+## **`/tracks/search?track_title=<attribute_goes_here>`**
+## **`/tracks/search?bpm=<attribute_goes_here>`**
+## **`/tracks/search?key=<attribute_goes_here>`**
+
+**Method: GET**
+
+- Arguments: The track_title, bpm or key of the track/s being searched for
+- Description: A route that returns any tracks with the attribute in the argument 
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/tracks/search?key=A%23%20Major
+
+(must substitute the '#' in A# Major with '%23%20')
+
+For user_1:
+
+```json
+[
+    {
+        "id": 1,
+        "track_title": "Xtal",
+        "bpm": 115,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    },
+    {
+        "id": 8,
+        "track_title": "Actium",
+        "bpm": 135,
+        "key": "A# Major",
+        "record_id": 1,
+        "record": {
+            "album_title": "Selected Ambient Works 85-92"
+        }
+    }
+]
+```
+
+## **`/tracks/`**
+
+**Method: POST**
+
+- Arguments: None
+- Description: A route that allows a user to create a new track as long as they have the record_id
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+```json
+{
+    "track_title": "test_track",
+    "bpm": 120,
+    "key": "D# Major",
+    "record_id": "1"
+}
+```
+
+**Request Response:**
+
+For user_1:
+
+```json
+{
+    "id": 21,
+    "track_title": "test_track",
+    "bpm": 120,
+    "key": "D# Major",
+    "record_id": 1,
+    "record": {
+        "album_title": "Selected Ambient Works 85-92"
+    }
+}
+```
+
+## **`/tracks/<int:id>`**
+
+**Method: PUT**
+
+- Arguments: The track_id (integer) being searched for
+- Description: A route that allows a user to update a track that is related to the user in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+```json
+{
+    "track_title": "track_updated",
+    "bpm": 100,
+    "key": "D Major"
+}
+```
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/tracks/1
+
+For user_1:
+
+```json
+{
+    "id": 1,
+    "track_title": "track_updated",
+    "bpm": 100,
+    "key": "D Major",
+    "record_id": 1,
+    "record": {
+        "album_title": "Selected Ambient Works 85-92"
+    }
+}
+```
+
+## **`/tracks/<int:id>`**
+
+**Method: DELETE**
+
+- Arguments: The track_id (integer) being searched for
+- Description: A route that allows a user to delete a track that is related to the user in the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (user)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+URL: 127.0.0.1:5000/tracks/1
+
+For user_1:
+
+```json
+{
+    "id": 1,
+    "track_title": "Xtal",
+    "bpm": 115,
+    "key": "A# Major",
+    "record_id": 1,
+    "record": {
+        "album_title": "Selected Ambient Works 85-92"
+    }
+}
+```
+
+<br>
+
+## **Collection Routes**
+
+<p align="center"> Collection Routes in Postman </p>
+<p align="center"><img src="./docs/collection-routes-postman.png" width = 30%></p>
+
+## **`/collections/`**
+
+**Method: GET**
+
+- Arguments: None
+- Description: A route that allows an admin to get all collections from the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+```json
+[
+    {
+        "id": 1,
+        "user_id": 2,
+        "record_id": 1
+    },
+    {
+        "id": 2,
+        "user_id": 3,
+        "record_id": 2
+    },
+    {
+        "id": 3,
+        "user_id": 3,
+        "record_id": 3
+    }
+]
+```
+
+## **`/collections/<int:id>`**
+
+**Method: GET**
+
+- Arguments: The collection_id (integer) being searched for
+- Description: A route that allows an admin to get a single collection from the database
+- Authentication: JWT Required
+- Authorization: Bearer Token (admin)
+
+**Request Body:**
+
+None
+
+**Request Response:**
+
+127.0.0.1:5000/collections/1
+
+```json
+{
+    "id": 1,
+    "user_id": 2,
+    "record_id": 1
+}
+
 ```
 
 <div style="page-break-after: always;"></div>
