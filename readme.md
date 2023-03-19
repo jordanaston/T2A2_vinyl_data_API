@@ -182,7 +182,7 @@ Since an ORM provides a high-level interface to the database, it can make code m
 
 - Arguments: None
 - Description: A route to login users/admin and receive a token to use for authentication and authorization. 
-- Authentication: None
+- Authentication: Email + Password
 - Authorization: No Auth
 
 **Request Body:**
@@ -578,7 +578,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 **Method: POST**
 
 - Arguments: None
-- Description: A route that allows any user to create a new artist in the databse
+- Description: A route that allows any user to create a new artist in the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (any user)
 
@@ -605,7 +605,7 @@ URL: 127.0.0.1:5000/artists/search?artist_name=Aphex Twin
 **Method: PUT**
 
 - Arguments: The artist_id (integer) being searched for
-- Description: A route that allows a user to update an artist that is related to the user in the databse
+- Description: A route that allows a user to update an artist that is related to the user in the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (user)
 
@@ -634,7 +634,7 @@ URL: 127.0.0.1:5000/artists/1
 **Method: DELETE**
 
 - Arguments: The artist_id (integer) being searched for
-- Description: A route that allows a user to delete an artist that is related to the user in the databse
+- Description: A route that allows a user to delete an artist that is related to the user in the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (user)
 
@@ -954,7 +954,7 @@ URL: 127.0.0.1:5000/records/1
 **Method: GET**
 
 - Arguments: None
-- Description: A route that allows an admin to get all tracks from the datbase
+- Description: A route that allows an admin to get all tracks from the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (admin)
 
@@ -1201,7 +1201,7 @@ None
 **Method: GET**
 
 - Arguments: None
-- Description: A route that allows a user to get all tracks related to the user in the databse
+- Description: A route that allows a user to get all tracks related to the user in the database
 - Authentication: JWT Required
 - Authorization: Bearer Token (user)
 
