@@ -40,7 +40,7 @@ GRANT ALL PRIVILEGES ON DATABASE vinyl_data_api_db TO db_dev;
 ```
 <div style="page-break-after: always;"></div>
 
-Open another WSL command line and run the following commands:
+Open another terminal and run the following commands:
 
 cd into the src folder inside the project folder and create/ activate the virtual environment:
 ```
