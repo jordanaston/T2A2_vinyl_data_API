@@ -68,6 +68,7 @@ flask db seed
 flask run
 ```
 
+
 Search 127.0.0.1:5000/ in the browser or Postman/ Insomnia. Refer to *API Endpoints* documentation to make requests.
 
 <div style="page-break-after: always;"></div>
